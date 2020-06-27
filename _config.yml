@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: '锁清秋'
+title: '学习笔记'
 subtitle: '小白-锁清秋'
 description: '只懂追求技术的小白'
-keywords: '张文军'
+keywords: '张文军,学习笔记,锁清秋'
 author: '张文军'
 language: zh-CN
 timezone: 'Asia/Shanghai'
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: www.njauit.cn
+url: https://zhanghub.cn/
 root: /
 permalink: :categories:title/
 permalink_defaults:
@@ -106,9 +106,9 @@ deploy:
   type: git
   # repository: https://github.com/NJAUzhangwenjun/njauzhangwenjun.github.io
   repo: 
-      github: git@github.com:NJAUzhangwenjun/njauzhangwenjun.github.io
-      coding: git@git.coding.net:njauzhangwenjun/njauzhangwenjun.git,master
       gitee: git@gitee.com:njzhangwenjun/njzhangwenjun.git
+      github: git@github.com:NJAUzhangwenjun/njauzhangwenjun.github.io
+      coding: git@git.coding.net:njauzhangwenjun/njauzhangwenjun.git
   branch: master
 
 # # Hexo local search

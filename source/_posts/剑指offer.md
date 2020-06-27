@@ -35,6 +35,7 @@ summary: 记录了个人对剑指offer的理解和解题思路
 
 
 ```java
+
 public class Solution {
     public boolean Find(int target, int [][] array) {
         
@@ -881,7 +882,7 @@ public class Solution {
 
 ### 分析
 
- 
+
   >（搬运评论区大佬的解释）：
   >
   >>1. 如果一个整数不为0，那么这个整数至少有一位是1。如果我们把这个整数减1，那么原来处在整数最右边的1就会变为0，原来在1后面的所有的0都会变成1(如果最右边的1后面还有0的话)。其余所有位将不会受到影响。
@@ -943,6 +944,7 @@ public class Solution {
   >>
   >
   >解法二：
+  >
   >>
 
 ### 代码实现
@@ -975,19 +977,85 @@ public class Solution {
 
 ### 分析
 
+  > 
   >
+  >这道题目自己是有思路的，丑数能够分解成2^x*3^y*5^z,
+  >所以只需要把得到的丑数不断地乘以2、3、5之后并放入他们应该放置的位置即可，
+  >而此题的难点就在于如何有序的放在合适的位置。
+  >1乘以 （2、3、5）=2、3、5；2乘以（2、3、5）=4、6、10；3乘以（2、3、5）=6,9,15；5乘以（2、3、5）=10、15、25；
+  >从这里我们可以看到如果不加策略地添加丑数是会有重复并且无序，
+  >而在2*x，3*y，5*z中，如果x=y=z那么最小丑数一定是乘以2的，但关键是有可能存在x》y》z的情况，所以我们要维持三个指针来记录当前乘以2、乘以3、乘以5的最小值，然后当其被选为新的最小值后，要把相应的指针+1；因为这个指针会逐渐遍历整个数组，因此最终数组中的每一个值都会被乘以2、乘以3、乘以5，也就是实现了我们最开始的想法，只不过不是同时成乘以*2、*3、*5，而是在需要的时候乘以*2、*3、5.  
 
 ### 代码实现
 
 ```java
 
+
+public class Solution {
+    public int GetUglyNumber_Solution(int index) {
+        if(index <= 0)return 0;
+        int p2=0,p3=0,p5=0;//初始化三个指向三个潜在成为最小丑数的位置
+        int[] result = new int[index];
+        result[0] = 1;//
+        for(int i=1; i < index; i++){
+            result[i] = Math.min(result[p2]*2, Math.min(result[p3]*3, result[p5]*5));
+            if(result[i] == result[p2]*2)p2++;//为了防止重复需要三个if都能够走到
+            if(result[i] == result[p3]*3)p3++;//为了防止重复需要三个if都能够走到
+            if(result[i] == result[p5]*5)p5++;//为了防止重复需要三个if都能够走到
+ 
+ 
+        }
+        return result[index-1];
+    }
+}
 ```
 
-## 22、反转链表
+## 23、反转链表
 
 ### 题目描述
 
- > 
+ > 输入一个链表，反转链表后，输出新链表的表头。
+
+### 分析
+
+
+
+  >用pre记录当前节点的前一个节点
+  >
+  >用next记录当前节点的后一个节点
+  >
+  >1. 当前节点a不为空，进入循环，先记录a的下一个节点位置next = b;再让a的指针指向pre
+  >2. 移动pre和head的位置，正因为刚才记录了下一个节点的位置，所以该链表没有断，我们让head走向b的位置。
+  >3. 当前节点为b不为空，先记录下一个节点的位置，让b指向pre的位置即a的位置，同时移动pre和head
+  >4. 当前节点c不为空，记录下一个节点的位置，让c指向b，同时移动pre和head，此时head为空，跳出，返回pre。
+
+### 代码实现
+
+```java
+    public ListNode ReverseList(ListNode head) {
+
+        ListNode pre = null; // 当前节点的前一个节点
+        ListNode next = null; // 当前节点的下一个节点
+        while( head != null){
+            next = head.next; // 记录当前节点的下一个节点位置；
+            head.next = pre; // 让当前节点指向前一个节点位置，完成反转
+            
+            pre = head; // pre 往右走
+            head = next;// 当前节点往右继续走
+        }
+        return pre;
+    }
+```
+
+
+
+## 24、数值的整数次方
+
+### 题目描述
+
+ > 给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。
+ >
+ > 保证base和exponent不同时为0
 
 ### 分析
 

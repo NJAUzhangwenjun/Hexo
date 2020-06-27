@@ -1,8 +1,8 @@
 ---
 title: Java内存模型
 date: 2020-01-17 06:22:22
-tags: JAVA
-category: 1、Java内存模型
+tags: 1、Java内存模型
+category: JVM
 summary: Java内存模型
 top: true
 cover: true
@@ -11,7 +11,6 @@ author: 张文军
 # Java内存模型
 
 ![](/images/favicon.png)
-
 
 ## 1、线程和进程的区别
 
@@ -36,19 +35,22 @@ author: 张文军
  > 
  > 
  > (JVM什么时候启动？类被调用    JVM线程---》其他的线程（main）)
-
-
- ![](http://myblog-1258908231.cos.ap-shanghai.myqcloud.com/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/20200119024241674.png)
-
-
+![JVM](https://zhangwenjun-1258908231.cos.ap-nanjing.myqcloud.com/njauit/1587851385.png)
 
 ## 3、JVM内存区域
+![JVM内存区域](https://zhangwenjun-1258908231.cos.ap-nanjing.myqcloud.com/njauit/1587851785.png)
 
-  - 方法区：类信息、常量、static 、JIT（JAVA即时编译） 、运行时常量池（信息共享）
-  - Java堆区：实例对象     GC   （信息共享）   (OOM)
-  - VM stack：Java方法在运行的内存模型   (OOM)
-  - PC：java线程的私有数据，这个数据就是执行下一条指令的地址
-  - Native method stack:  与JVM的native 
+JVM 内存区域主要分为线程私有区域【程序计数器、虚拟机栈、本地方法区】、线程共享区域【JAVA 堆、方法区】、直接内存。
+
+- 方法区：类信息、常量、static 、JIT（JAVA即时编译） 、运行时常量池（信息共享）
+- Java堆区：实例对象  数组  GC   （信息共享，垃圾收集的最重要的内存区域）   (OOM)
+- VM stack：Java方法在运行的内存模型   (OOM)
+- PC：java线程的私有数据，这个数据就是执行下一条指令的地址
+- Native method stack:  JVM的native ( NIO 提供了基于 Channel 与 Buffer 的 IO 方式, 它可以使用 Native 函数库直接分配堆外内存, 然后使用DirectByteBuffer 对象作为这块内存的引用进行操作)
+
+线程私有数据区域生命周期与线程相同, 依赖用户线程的启动/结束 而 创建/销毁(在 HotspotVM 内, 每个线程都与操作系统的本地线程直接映射, 因此这部分内存区域的存/否跟随本地线程的生/死对应)。
+线程共享区域随虚拟机的启动/关闭而创建/销毁。
+![JVM内存区域](https://zhangwenjun-1258908231.cos.ap-nanjing.myqcloud.com/njauit/1587852337.png)
 
 ## 4、Java内存模型   Java memory model   JMM(规范,抽象的模型) 
 
