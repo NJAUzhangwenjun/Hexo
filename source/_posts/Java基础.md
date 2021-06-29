@@ -1,6 +1,6 @@
 ---
 title: Java基础
-top: true
+top: false
 cover: true
 author: 张文军
 date: 2020-06-22 19:51:37
@@ -12,7 +12,7 @@ summary: Java基础
 
 ![Java快速开发学习](https://zhangwenjun-1258908231.cos.ap-nanjing.myqcloud.com/njauit/1586869254.png)
 
-<center><a href="https://it.njauit.cn">锁清秋</a></center>
+<center><a href="https://wjhub.gitee.io">锁清秋</a></center>
 
 ----
 

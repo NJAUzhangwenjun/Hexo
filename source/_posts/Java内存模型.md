@@ -4,13 +4,19 @@ date: 2020-01-17 06:22:22
 tags: 1、Java内存模型
 category: JVM
 summary: Java内存模型
-top: true
+top: false
 cover: true
 author: 张文军
 ---
 # Java内存模型
 
-![](/images/favicon.png)
+<center>更多内容请关注：</center>
+
+![Java快速开发学习](https://zhangwenjun-1258908231.cos.ap-nanjing.myqcloud.com/njauit/1586869254.png)
+
+<center><a href="https://wjhub.gitee.io">锁清秋</a></center>
+
+----
 
 ## 1、线程和进程的区别
 

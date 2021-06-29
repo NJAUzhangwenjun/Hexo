@@ -4,12 +4,18 @@ date: 2020-02-05 16:49:01
 tags: Tomcat
 category: 中间件
 summary: Tomcat
-top: true
+top: false
 cover: true
 author: 张文军
 ---
 
-![](/images/favicon.png)
+<center>更多内容请关注：</center>
+
+![Java快速开发学习](https://zhangwenjun-1258908231.cos.ap-nanjing.myqcloud.com/njauit/1586869254.png)
+
+<center><a href="https://wjhub.gitee.io">锁清秋</a></center>
+
+----
 # Tomcat
 ## 1、Tomcat架构说明
 Tomcat是一个基于JAVA的WEB容器，其实现了JAVA EE中的 Servlet 与 jsp 规范，与Nginx apache 服务器不同在于一般用于动态请求处理。在架构设计上采用面向组件的方式设计。即整体功能是通过组件的方式拼装完成。另外每个组件都可以被替换以保证灵活性。

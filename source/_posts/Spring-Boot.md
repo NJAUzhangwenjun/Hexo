@@ -1,6 +1,6 @@
 ---
 title: Spring Boot
-top: true
+top: false
 cover: true
 author: 张文军
 date: 2020-05-16 14:33:19
@@ -12,7 +12,7 @@ summary: Spring Boot
 
 ![Java快速开发学习](https://zhangwenjun-1258908231.cos.ap-nanjing.myqcloud.com/njauit/1586869254.png)
 
-<center><a href="https://it.njauit.cn">锁清秋</a></center>
+<center><a href="https://wjhub.gitee.io">锁清秋</a></center>
 
 ----
 
@@ -833,7 +833,7 @@ java -jar spring-boot-02-config-02-0.0.1-SNAPSHOT.jar --server.port=8087  --serv
 
     ```
 
-    ​
+    
 
 **==将 类路径下  META-INF/spring.factories 里面配置的所有EnableAutoConfiguration的值加入到了容器中；==**
 
@@ -1731,7 +1731,7 @@ Spring Boot 自动配置好了SpringMVC
 
 - Custom `Favicon` support (see below).  favicon.ico
 
-  ​
+  
 
 - 自动注册了 of `Converter`, `GenericConverter`, `Formatter` beans.
 
@@ -1756,7 +1756,7 @@ Spring Boot 自动配置好了SpringMVC
 
     ==自己给容器中添加HttpMessageConverter，只需要将自己的组件注册容器中（@Bean,@Component）==
 
-    ​
+    
 
 - Automatic registration of `MessageCodesResolver` (see below).定义错误代码生成规则
 

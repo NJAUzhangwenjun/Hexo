@@ -7,14 +7,20 @@ author: 张文军
 tags: 
     - '算法'
     -  '剑指 offer '
-top: true
+top: false
 cover: true
 summary: 记录了个人对剑指offer的理解和解题思路
 ---
 
 
 
-![](/images/favicon.png)
+<center>更多内容请关注：</center>
+
+![Java快速开发学习](https://zhangwenjun-1258908231.cos.ap-nanjing.myqcloud.com/njauit/1586869254.png)
+
+<center><a href="https://wjhub.gitee.io">锁清秋</a></center>
+
+----
 # 剑指 offer
 
 ## 1、 二维数组中的查找

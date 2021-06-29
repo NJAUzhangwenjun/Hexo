@@ -13,7 +13,7 @@ timezone: 'Asia/Shanghai'
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://zhanghub.cn/
+url: https://wjhub.gitee.io/
 root: /
 permalink: :categories:title/
 permalink_defaults:
@@ -104,13 +104,11 @@ theme: hexo-theme-matery
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  # repository: https://github.com/NJAUzhangwenjun/njauzhangwenjun.github.io
-  repo: 
-      gitee: git@gitee.com:njzhangwenjun/njzhangwenjun.git
-      github: git@github.com:NJAUzhangwenjun/njauzhangwenjun.github.io
-      coding: git@git.coding.net:njauzhangwenjun/njauzhangwenjun.git
+  repo:
+    gitee: git@gitee.com:wjhub/wjhub.git
   branch: master
-
+    # github: git@github.com:NJAUzhangwenjun/njauzhangwenjun.github.io
+    # coding: git@e.coding.net:njauzhangwenjun/njauzhangwenjun.git
 # # Hexo local search
 search:
   path: search.xml

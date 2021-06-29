@@ -4,12 +4,18 @@ date: 2020-02-13 23:44:59
 tags: JVM+GC解析
 category: JVM
 summary: JVM+GC解析
-top: true
+top: false
 cover: true
 author: 张文军
 ---
 
-![](/images/favicon.png)
+<center>更多内容请关注：</center>
+
+![Java快速开发学习](https://zhangwenjun-1258908231.cos.ap-nanjing.myqcloud.com/njauit/1586869254.png)
+
+<center><a href="https://wjhub.gitee.io">锁清秋</a></center>
+
+----
 
 # JVM+GC解析
 

@@ -1,6 +1,6 @@
 ---
 title: Spring
-top: true
+top: false
 cover: true
 author: 张文军
 date: 2020-05-05 13:04:41
@@ -12,7 +12,7 @@ summary: Spring
 
 ![Java快速开发学习](https://zhangwenjun-1258908231.cos.ap-nanjing.myqcloud.com/njauit/1586869254.png)
 
-<center><a href="https://it.njauit.cn">锁清秋</a></center>
+<center><a href="https://wjhub.gitee.io">锁清秋</a></center>
 
 ----
 # Spring
@@ -768,3 +768,54 @@ public Object around(ProceedingJoinPoint joinPoint) {
     </bean>
     </beans>
 ```
+
+
+
+## Spring Bean 的生命周期
+
+●Bean容器找到配置文件中Spring Bean的定义。
+●Bean 容器利用Java Reflection API创建一个 Bean的实例。
+●如果涉及到一些属性值利用set()方法设置一些属性值。
+●如果Bean实现了BeanNameAware接口，调用setBeanName()方法，传入Bean的名字。
+●如果Bean实现了BeanClassLoaderAware接口，调用setBeanClassLoader()方法，传入ClassLoader对象的实例。
+●与上面的类似，如果实现了其他 *. Aware接口，就调用相应的方法。
+●如果有和加载这个Bean的Spring容器相关的BeanPostProcessor对象，执行postProcessBeforeInitialization()方法
+●如果Bean实现了InitializingBean接口， 执行afterPropertiesSet()方法。
+●如果Bean在配置文件中的定义包含init-method属性，执行指定的方法。
+●如果有和加载这个Bean的Spring容器相关的BeanPostProcessor对象，执行postProcessAfterInitialization()方法
+●当要销毁Bean的时候，如果Bean实现了DisposableBean接口，执行destroy()方法。
+●当要销毁Bean的时候，如果Bean在配置文件中的定义包含destroy-method属性，执行指定的方法。
+
+![image-20210313193621478](../images/Spring/image-20210313193621478.png)
+
+![img](../images/Spring/2020072612595369.png)
+
+
+
+
+
+## Spring是如何解决的循环依赖？
+
+Spring通过三级缓存解决了循环依赖，其中一级缓存为单例池（`singletonObjects`）,二级缓存为早期曝光对象`earlySingletonObjects`，三级缓存为早期曝光对象工厂（`singletonFactories`）。当A、B两个类发生循环引用时，在A完成实例化后，就使用实例化后的对象去创建一个对象工厂，并添加到三级缓存中，如果A被AOP代理，那么通过这个工厂获取到的就是A代理后的对象，如果A没有被AOP代理，那么这个工厂获取到的就是A实例化的对象。当A进行属性注入时，会去创建B，同时B又依赖了A，所以创建B的同时又会去调用getBean(a)来获取需要的依赖，此时的getBean(a)会从缓存中获取，第一步，先获取到三级缓存中的工厂；第二步，调用对象工工厂的getObject方法来获取到对应的对象，得到这个对象后将其注入到B中。紧接着B会走完它的生命周期流程，包括初始化、后置处理器等。当B创建完后，会将B再注入到A中，此时A再完成它的整个生命周期。至此，循环依赖结束！
+
+![image-20200706161709829](../images/Spring/aHR0cHM6Ly9naXRlZS5jb20vd3hfY2MzNDdiZTY5Ni9ibG9nSW1hZ2UvcmF3L21hc3Rlci9pbWFnZS0yMDIwMDcwNjE2MTcwOTgyOS5wbmc)
+
+### 为什么要使用三级缓存呢？二级缓存能解决循环依赖吗？
+
+如果要使用二级缓存解决循环依赖，意味着所有Bean在实例化后就要完成AOP代理，这样违背了Spring设计的原则，Spring在设计之初就是通过`AnnotationAwareAspectJAutoProxyCreator`这个后置处理器来在Bean生命周期的最后一步来完成AOP代理，而不是在实例化后就立马进行AOP代理。
+
+
+
+## 常用状态码
+
+200OK:正常返回信息
+
+400 Bad Request:客户端请求有语法错误，不能被服务器所理解
+
+401 Unauthorized:请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用
+
+403 Forbidden:服务器收到请求，但是拒绝提供服务
+
+404 Not Found:请求资源不存在，eg，输入了错误的URL500 Internal Server Error:服务器发生不可预期的错误
+
+503 Server Unavailable:服务器当前不能处理客户端的请求,一段时间后可能恢复正常
