@@ -96,7 +96,7 @@
 
 **第2种： 通过<resultMap>来映射字段名和实体类属性名的一一对应的关系。**
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
 ```
  <select id="getOrder" parameterType="int" resultMap="orderresultmap">
@@ -113,7 +113,7 @@
     </reslutMap>
 ```
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
  
 
@@ -123,7 +123,7 @@
 
 **第1种：在Java代码中添加sql通配符。**
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
 ```
     string wildcardname = “%smi%”;
@@ -134,11 +134,11 @@
     </select>
 ```
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
 **第2种：在sql语句中拼接通配符，会引起sql注入**
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
 ```
     string wildcardname = “smi”;
@@ -149,7 +149,7 @@
     </select>
 ```
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
  
 
@@ -203,7 +203,7 @@
 
 **然后在java代码中像下面这样执行批处理插入:**
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
 ```
   list<string> names = new arraylist();
@@ -230,7 +230,7 @@
     }
 ```
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
  
 
@@ -250,7 +250,7 @@
 </insert>
 ```
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
 ```
     name name = new name();
@@ -262,7 +262,7 @@
     system.out.println(“generated key value = ” + name.getid());
 ```
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
  
 
@@ -270,7 +270,7 @@
 
 ### **14、在mapper中如何传递多个参数?**
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
 ```
 （1）第一种：
@@ -310,7 +310,7 @@ finally{
  }
 ```
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
  
 
@@ -356,7 +356,7 @@ finally{
 
 ### **19、 一对一、一对多的关联查询 ？** 
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
 ```
 <mapper namespace="com.lcb.mapping.userMapper">  
@@ -397,7 +397,7 @@ finally{
 </mapper> 
 ```
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
  
 
@@ -468,7 +468,7 @@ finally{
 
 ### **26、Mapper编写有哪几种方式？**
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
 ```
 第一种：接口实现类继承SqlSessionDaoSupport：使用此种方法需要编写mapper接口，mapper接口实现类、mapper.xml文件。
@@ -517,7 +517,7 @@ mapper接口中的方法名和mapper.xml中的定义的statement的id保持一�
 （4）使用扫描器后从spring容器中获取mapper的实现对象。
 ```
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
 
  
 

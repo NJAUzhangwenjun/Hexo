@@ -37,7 +37,7 @@ author: 张文军
    - IngestTime
    - ProcessingTime
 
-![img](../images/大数据-flink-高级编程B/clip_image002.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035842.gif)
 
  
 
@@ -73,7 +73,7 @@ author: 张文军
 
 **根据业务选择最合适的时间**
 
-![img](../images/大数据-flink-高级编程B/clip_image004.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035839.gif)
 
 这个是hadoop的yarn日志，图中标注的是event time，同时也是yarn服务产生真正动作的时间，在进入操作时那台机器的系统时间是2019-04-07 21:10:55,666，
 
@@ -124,7 +124,7 @@ author: 张文军
 - 在某些情况下，基于Event Time的数据流是有续的
 - 在有序流中，watermark就是一个简单的周期性标记。
 
-![img](../images/大数据-flink-高级编程B/clip_image006.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035835.gif)
 
  
 
@@ -133,13 +133,13 @@ author: 张文军
 - 在更多场景下，基于Event Time的数据流是无续的
 - 在无序流中，watermark至关重要，它告诉operator比watermark更早(更老/时间戳更小)的事件已经到达， operator可以将内部事件时间提前到watermark的时间戳(可以触发window计算啦)
 
-![img](../images/大数据-flink-高级编程B/clip_image008.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035833.gif)
 
  
 
 **并行流中的Watermarks**
 
-![img](../images/大数据-flink-高级编程B/clip_image010.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035830.gif)
 
 - 通常情况下， watermark在source函数中生成，但是也可以在source后任何阶段，如果指定多次后面会覆盖前面的值。 source的每个sub task独立生成水印
 - watermark通过operator时会推进operators处的当前event time，同时operators会为下游生成一个新的watermark
@@ -660,11 +660,11 @@ public class TimestampWatermarkMethod6 {
 
 - Keyed Windows（在已经按照key分组的基础上(KeyedStream)，再构建多任务并行window）
 
-![img](../images/大数据-flink-高级编程B/clip_image002-1611724322470.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035815.gif)
 
 - Non-Keyed Windows（在未分组的DataStream上构建单任务window，并行度是1，API都带All后缀）
 
-![img](../images/大数据-flink-高级编程B/clip_image004-1611724322471.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035819.gif)
 
   **取决于是否使用了keyBy**
 
@@ -685,7 +685,7 @@ val result: DataStream[ResultType] = windowed.reduce(myReducer)
 
 - 上述 WindowedStream 的样例代码在运行时会转换成如下的执行图：
 
-![img](../images/大数据-flink-高级编程B/clip_image006-1611724322471.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035811.gif)
 
 - Flink 的窗口实现中会将到达的数据缓存在对应的窗口buffer中。当到达窗口发送的条件时，Flink 会对整个窗口中的数据进行处理（由Trigger控制）。Flink 在聚合类窗口有一定的优化，即不会保存窗口中的所有值，而是每到一个元素执行一次聚合函数，最终只保存一份数据即可。
 - 在key分组的流上进行窗口切分是比较常用的场景，也能够很好地并行化（不同的key上的窗口聚合可以分配到不同的task去处理）。不过有时候我们也需要在普通流上进行窗口的操作，这就是 AllWindowedStream。AllWindowedStream是直接在DataStream上进行windowAll(...)操作。AllWindowedStream 的实现是基于 WindowedStream     的（Flink 1.1.x 开始）。Flink 不推荐使用AllWindowedStream，因为在普通流上进行窗口操作，就势必需要将所有分区的流都汇集到单个的Task中，而这个单个的Task很显然就会成为整个Job的瓶颈。
@@ -694,7 +694,7 @@ val result: DataStream[ResultType] = windowed.reduce(myReducer)
 
 **Keyed Windows** **对比** **Non-Keyed Windows** **（以基于** **time** **的** **window** **为例）**
 
-![img](../images/大数据-flink-高级编程B/clip_image008-1611724322471.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035808.gif)
 
  
 
@@ -712,13 +712,13 @@ val result: DataStream[ResultType] = windowed.reduce(myReducer)
   - Sliding Window
   - Session Window
 
-![img](../images/大数据-flink-高级编程B/clip_image010-1611724322471.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035805.gif)
 
  
 
 **所有类型窗口对比：**
 
-![img](../images/大数据-flink-高级编程B/clip_image012.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035802.gif)
 
  
 
@@ -780,7 +780,7 @@ val result: DataStream[ResultType] = windowed.reduce(myReducer)
 
 - 适用场景:计算各个时间段的指标
 
-![img](../images/大数据-flink-高级编程B/clip_image014.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035758.gif)
 
  
 
@@ -896,7 +896,7 @@ public class TumblingWindows {
 
 - 适用场景：每5分钟求统计一小时的数据，那就应该5分钟是窗口的滑动间隔，1小时为窗口的大小
 
-![img](../images/大数据-flink-高级编程B/clip_image002-1611724368112.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035754.gif)
 
  
 
@@ -1000,7 +1000,7 @@ public class SlidingWindows {
 
 - 适用场景：基于用户行为进行统计分析
 
-![img](../images/大数据-flink-高级编程B/clip_image002-1611724412756.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035749.gif)
 
  
 
@@ -1140,7 +1140,7 @@ public class SessionWindows {
 
 ·     注意:不要跟Non-keyed Window搞混，两个不同的角度
 
-![img](../images/大数据-flink-高级编程B/clip_image002-1611724444445.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035744.gif)
 
 **Global Windows** **的使用**
 
@@ -1148,7 +1148,7 @@ public class SessionWindows {
 
 ·     Evictor :“驱逐者”，类似filter作用。在Trigger触发之后，window被处理前或者后，Evictor用来删除窗口中无用的元素，可以进一步解决窗口输入输出数据的问题，默认是没有驱逐器的，所以也不常用。
 
-![img](../images/大数据-flink-高级编程B/clip_image004-1611724444445.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035742.gif)
 
 示例代码：
 
@@ -1650,21 +1650,21 @@ public class CoGroupOnAndJoinSessionWindow {
 
 原理图：
 
-![img](../images/大数据-flink-高级编程B/clip_image002-1611724601322.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035730.gif)
 
 不同的windows的join场景：
 
 - Tumbling Window Join
 
-![img](../images/大数据-flink-高级编程B/clip_image004-1611724601324.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035727.gif)
 
 - Sliding Window Join
 
-![img](../images/大数据-flink-高级编程B/clip_image006-1611724601325.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035724.gif)
 
 - Session Window Join
 
-![img](../images/大数据-flink-高级编程B/clip_image008-1611724601325.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035721.gif)
 
  
 

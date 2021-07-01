@@ -26,7 +26,7 @@ summary: Spring源码-生命周期
 
 ### 1. Spring核心：IOC和AOP
 
-![image-20210629042908089](../images/Spring源码-生命周期/image-20210629042908089.png)
+![image-20210629042908089](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025507.png)
 
 
 
@@ -34,9 +34,9 @@ summary: Spring源码-生命周期
 
 ### 2. Spring Bean的加载流程图解
 
-![image-20210629044605747](../images/Spring源码-生命周期/image-20210629044605747.png)
+![image-20210629044605747](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025508.png)
 
-![image-20210629044033175](../images/Spring源码-生命周期/image-20210629044033175.png)
+![image-20210629044033175](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025509.png)
 
 
 
@@ -145,11 +145,13 @@ public void refresh() throws BeansException, IllegalStateException {
 
 
 
+
+
 ### 2. preInstantiateSingletons()
 
 > org.springframework.beans.factory.support.DefaultListableBeanFactory#preInstantiateSingletons
 >
-> > 实例化和初始化所有单例对象
+> > 实例化和初始化
 
 ```java
 /**
@@ -406,129 +408,234 @@ protected <T> T doGetBean(
 }
 ```
 
-### 4. doCreateBean()
+### 4. doGetBean()
+
+```java
+protected <T> T doGetBean(final String name, @Nullable final Class<T> requiredType, @Nullable final Object[] args, boolean typeCheckOnly) throws BeansException {
+		...
+		// Eagerly check singleton cache for manually registered singletons.
+		// 先去获取一次，如果不为null，此处就会走缓存了~~
+		Object sharedInstance = getSingleton(beanName);
+		...
+		// 如果不是只检查类型，那就标记这个Bean被创建了~~添加到缓存里 也就是所谓的  当前创建Bean池
+		if (!typeCheckOnly) {
+			markBeanAsCreated(beanName);
+		}
+		...
+		// Create bean instance.
+		if (mbd.isSingleton()) {
+		
+			// 这个getSingleton方法不是SingletonBeanRegistry的接口方法  属于实现类DefaultSingletonBeanRegistry的一个public重载方法~~~
+			// 它的特点是在执行singletonFactory.getObject();前后会执行beforeSingletonCreation(beanName);和afterSingletonCreation(beanName);  
+			// 也就是保证这个Bean在创建过程中，放入正在创建的缓存池里  可以看到它实际创建bean调用的是我们的createBean方法~~~~
+			sharedInstance = getSingleton(beanName, () -> {
+				try {
+					return createBean(beanName, mbd, args);
+				} catch (BeansException ex) {
+					destroySingleton(beanName);
+					throw ex;
+				}
+			});
+			bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
+		}
+	}
+```
+
+
+
+### 5. doCreateBean()：实例化和初始化
 
 > :实例化和初始化
 
 > org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#doCreateBean()
 
+> 其中最重要的执行逻辑调用了三个方法：
+>
+> 1. 实例化Bean —–> *createBeanInstance()*
+> 2. 属性填充  —> *populateBean()*
+> 3. 执行初始化逻辑->执行AwareMethods和Bean后置处理器 —>  *initializeBean()*
+
 ```java
 /**
- * [doCreateBean 创建Bean]
+ * [doCreateBean 实例化和初始化]
  * @param  beanName              [description]
  * @param  mbd                   [description]
  * @param  args                  [description]
  * @return                       [description]
  * @throws BeanCreationException [description]
  */
-protected Object doCreateBean(String beanName, RootBeanDefinition mbd, @Nullable Object[] args)
-		throws BeanCreationException {
-
-	// Instantiate the bean.
-    // 实例化Bean
-	BeanWrapper instanceWrapper = null;
-	if (mbd.isSingleton()) {
-		instanceWrapper = this.factoryBeanInstanceCache.remove(beanName);
-	}
-	if (instanceWrapper == null) {
-		/*通过反射实例化Bean*/
+protected Object doCreateBean(final String beanName, final RootBeanDefinition mbd, final @Nullable Object[] args) throws BeanCreationException {
+		...
+		// 创建Bean对象，并且将对象包裹在BeanWrapper 中
 		instanceWrapper = createBeanInstance(beanName, mbd, args);
-	}
-	Object bean = instanceWrapper.getWrappedInstance();
-	Class<?> beanType = instanceWrapper.getWrappedClass();
-	if (beanType != NullBean.class) {
-		mbd.resolvedTargetType = beanType;
-	}
-
-	// Allow post-processors to modify the merged bean definition.
-	synchronized (mbd.postProcessingLock) {
-		if (!mbd.postProcessed) {
-			try {
-				applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName);
+		// 再从Wrapper中把Bean原始对象（非代理~~~）  这个时候这个Bean就有地址值了，就能被引用了~~~
+		// 注意：此处是原始对象，这点非常的重要
+		final Object bean = instanceWrapper.getWrappedInstance();
+		...
+		// earlySingletonExposure 用于表示是否”提前暴露“原始对象的引用，用于解决循环依赖。
+		// 对于单例Bean，该变量一般为 true   但可以通过属性allowCircularReferences = false来关闭循环引用
+		// isSingletonCurrentlyInCreation(beanName) 表示当前bean必须在创建中才行
+		boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences && isSingletonCurrentlyInCreation(beanName));
+		if (earlySingletonExposure) {
+			if (logger.isTraceEnabled()) {
+				logger.trace("Eagerly caching bean '" + beanName + "' to allow for resolving potential circular references");
 			}
-			catch (Throwable ex) {
-				throw new BeanCreationException(mbd.getResourceDescription(), beanName,
-						"Post-processing of merged bean definition failed", ex);
-			}
-			mbd.postProcessed = true;
+			// 上面讲过调用此方法放进一个ObjectFactory，二级缓存会对应删除的
+			// getEarlyBeanReference的作用：调用SmartInstantiationAwareBeanPostProcessor.getEarlyBeanReference()这个方法  否则啥都不做
+			// 也就是给调用者个机会，自己去实现暴露这个bean的应用的逻辑~~~
+			// 比如在getEarlyBeanReference()里可以实现AOP的逻辑~~~  参考自动代理创建器AbstractAutoProxyCreator  实现了这个方法来创建代理对象
+			// 若不需要执行AOP的逻辑，直接返回Bean
+			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
 		}
-	}
-
-	// Eagerly cache singletons to be able to resolve circular references
-	// even when triggered by lifecycle interfaces like BeanFactoryAware.
-	boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences &&
-			isSingletonCurrentlyInCreation(beanName));
-	if (earlySingletonExposure) {
-		if (logger.isTraceEnabled()) {
-			logger.trace("Eagerly caching bean '" + beanName +
-					"' to allow for resolving potential circular references");
-		}
-		addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
-	}
-
-	// Initialize the bean instance.
-	// 初始化Bean
-	Object exposedObject = bean;
-	try {
-		/**
-		* 对bean的属性进行填充，将各个属性值注入，
-		* 其中，可能存在依赖于其他bean的属性，则会递归初始化依赖的bean
-		*/
+		Object exposedObject = bean; //exposedObject 是最终返回的对象
+		...
+		// 填充属于，解决@Autowired依赖~
 		populateBean(beanName, mbd, instanceWrapper);
-		/*执行初始化流程：执行Aware接口方法，Bean执行处理器逻辑和method-init方法*/
+		// 执行初始化回调方法们~~~
 		exposedObject = initializeBean(beanName, exposedObject, mbd);
-	}
-	catch (Throwable ex) {
-		if (ex instanceof BeanCreationException && beanName.equals(((BeanCreationException) ex).getBeanName())) {
-			throw (BeanCreationException) ex;
-		}
-		else {
-			throw new BeanCreationException(
-					mbd.getResourceDescription(), beanName, "Initialization of bean failed", ex);
-		}
-	}
+		
+		// earlySingletonExposure：如果你的bean允许被早期暴露出去 也就是说可以被循环引用  那这里就会进行检查
+		// 此段代码非常重要
+		if (earlySingletonExposure) {
+			// 此时一级缓存肯定还没数据，但是呢此时候二级缓存earlySingletonObjects也没数据
+			//注意，注意：第二参数为false  表示不会再去三级缓存里查了~~~
 
-	if (earlySingletonExposure) {
-		Object earlySingletonReference = getSingleton(beanName, false);
-		if (earlySingletonReference != null) {
-			if (exposedObject == bean) {
-				exposedObject = earlySingletonReference;
-			}
-			else if (!this.allowRawInjectionDespiteWrapping && hasDependentBean(beanName)) {
-				String[] dependentBeans = getDependentBeans(beanName);
-				Set<String> actualDependentBeans = new LinkedHashSet<>(dependentBeans.length);
-				for (String dependentBean : dependentBeans) {
-					if (!removeSingletonIfCreatedForTypeCheckOnly(dependentBean)) {
-						actualDependentBeans.add(dependentBean);
+			// 此处非常巧妙的一点：：：因为上面各式各样的实例化、初始化的后置处理器都执行了，如果你在上面执行了这一句
+			//  ((ConfigurableListableBeanFactory)this.beanFactory).registerSingleton(beanName, bean);
+			// 那么此处得到的earlySingletonReference 的引用最终会是你手动放进去的Bean最终返回，完美的实现了"偷天换日" 特别适合中间件的设计
+			// 我们知道，执行完此doCreateBean后执行addSingleton()  其实就是把自己再添加一次  **再一次强调，完美实现偷天换日**
+			Object earlySingletonReference = getSingleton(beanName, false);
+			if (earlySingletonReference != null) {
+			
+				// 这个意思是如果经过了initializeBean()后，exposedObject还是木有变，那就可以大胆放心的返回了
+				// initializeBean会调用后置处理器，这个时候可以生成一个代理对象，那这个时候它哥俩就不会相等了 走else去判断吧
+				if (exposedObject == bean) {
+					exposedObject = earlySingletonReference;
+				} 
+
+				// allowRawInjectionDespiteWrapping这个值默认是false
+				// hasDependentBean：若它有依赖的bean 那就需要继续校验了~~~(若没有依赖的 就放过它~)
+				else if (!this.allowRawInjectionDespiteWrapping && hasDependentBean(beanName)) {
+					// 拿到它所依赖的Bean们~~~~ 下面会遍历一个一个的去看~~
+					String[] dependentBeans = getDependentBeans(beanName);
+					Set<String> actualDependentBeans = new LinkedHashSet<>(dependentBeans.length);
+					
+					// 一个个检查它所以Bean
+					// removeSingletonIfCreatedForTypeCheckOnly这个放见下面  在AbstractBeanFactory里面
+					// 简单的说，它如果判断到该dependentBean并没有在创建中的了的情况下,那就把它从所有缓存中移除~~~  并且返回true
+					// 否则（比如确实在创建中） 那就返回false 进入我们的if里面~  表示所谓的真正依赖
+					//（解释：就是真的需要依赖它先实例化，才能实例化自己的依赖）
+					for (String dependentBean : dependentBeans) {
+						if (!removeSingletonIfCreatedForTypeCheckOnly(dependentBean)) {
+							actualDependentBeans.add(dependentBean);
+						}
+					}
+
+					// 若存在真正依赖，那就报错（不要等到内存移除你才报错，那是非常不友好的） 
+					// 这个异常是BeanCurrentlyInCreationException，报错日志也稍微留意一下，方便定位错误~~~~
+					if (!actualDependentBeans.isEmpty()) {
+						throw new BeanCurrentlyInCreationException(beanName,
+								"Bean with name '" + beanName + "' has been injected into other beans [" +
+								StringUtils.collectionToCommaDelimitedString(actualDependentBeans) +
+								"] in its raw version as part of a circular reference, but has eventually been " +
+								"wrapped. This means that said other beans do not use the final version of the " +
+								"bean. This is often the result of over-eager type matching - consider using " +
+								"'getBeanNamesOfType' with the 'allowEagerInit' flag turned off, for example.");
 					}
 				}
-				if (!actualDependentBeans.isEmpty()) {
-					throw new BeanCurrentlyInCreationException(beanName,
-							"Bean with name '" + beanName + "' has been injected into other beans [" +
-							StringUtils.collectionToCommaDelimitedString(actualDependentBeans) +
-							"] in its raw version as part of a circular reference, but has eventually been " +
-							"wrapped. This means that said other beans do not use the final version of the " +
-							"bean. This is often the result of over-eager type matching - consider using " +
-							"'getBeanNamesForType' with the 'allowEagerInit' flag turned off, for example.");
-				}
 			}
+		}
+		
+		return exposedObject;
+	}
+
+	// 虽然是remove方法 但是它的返回值也非常重要
+	// 该方法唯一调用的地方就是循环依赖的最后检查处~~~~~
+	protected boolean removeSingletonIfCreatedForTypeCheckOnly(String beanName) {
+		// 如果这个bean不在创建中  比如是ForTypeCheckOnly的  那就移除掉
+		if (!this.alreadyCreated.contains(beanName)) {
+			removeSingleton(beanName);
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 
-	// Register bean as disposable.
-	try {
-		registerDisposableBeanIfNecessary(beanName, bean, mbd);
-	}
-	catch (BeanDefinitionValidationException ex) {
-		throw new BeanCreationException(
-				mbd.getResourceDescription(), beanName, "Invalid destruction signature", ex);
-	}
-
-	return exposedObject;
 }
 ```
 
-### 5. populateBean（）
+### 6. createBeanInstance()：实例化Benan
+
+
+
+```java
+/**
+ * [createBeanInstance 实例化Benan]
+ * @param  beanName [description]
+ * @param  mbd      [description]
+ * @param  args     [description]
+ * @return          [description]
+ */
+protected BeanWrapper createBeanInstance(String beanName, RootBeanDefinition mbd, @Nullable Object[] args) {
+		// Make sure bean class is actually resolved at this point.
+		Class<?> beanClass = resolveBeanClass(mbd, beanName);
+
+		if (beanClass != null && !Modifier.isPublic(beanClass.getModifiers()) && !mbd.isNonPublicAccessAllowed()) {
+			throw new BeanCreationException(mbd.getResourceDescription(), beanName,
+					"Bean class isn't public, and non-public access not allowed: " + beanClass.getName());
+		}
+
+		Supplier<?> instanceSupplier = mbd.getInstanceSupplier();
+		if (instanceSupplier != null) {
+			return obtainFromSupplier(instanceSupplier, beanName);
+		}
+
+		if (mbd.getFactoryMethodName() != null) {
+			return instantiateUsingFactoryMethod(beanName, mbd, args);
+		}
+
+		// Shortcut when re-creating the same bean...
+		boolean resolved = false;
+		boolean autowireNecessary = false;
+		if (args == null) {
+			synchronized (mbd.constructorArgumentLock) {
+				if (mbd.resolvedConstructorOrFactoryMethod != null) {
+					resolved = true;
+					autowireNecessary = mbd.constructorArgumentsResolved;
+				}
+			}
+		}
+		if (resolved) {
+			if (autowireNecessary) {
+				return autowireConstructor(beanName, mbd, null, null);
+			}
+			else {
+				return instantiateBean(beanName, mbd);
+			}
+		}
+
+		// Candidate constructors for autowiring?
+		Constructor<?>[] ctors = determineConstructorsFromBeanPostProcessors(beanClass, beanName);
+		if (ctors != null || mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR ||
+				mbd.hasConstructorArgumentValues() || !ObjectUtils.isEmpty(args)) {
+			return autowireConstructor(beanName, mbd, ctors, args);
+		}
+
+		// Preferred constructors for default construction?
+		ctors = mbd.getPreferredConstructors();
+		if (ctors != null) {
+			return autowireConstructor(beanName, mbd, ctors, null);
+		}
+
+		// No special handling: simply use no-arg constructor.
+		return instantiateBean(beanName, mbd);
+	}
+```
+
+
+
+### 7. populateBean()：属性填充
 
 > : 属性填充(不会执行Aware方法)
 
@@ -604,12 +711,15 @@ protected void populateBean(String beanName, RootBeanDefinition mbd, @Nullable B
    }
 
    if (pvs != null) {
+       /**
+       *属性填充
+       */
       applyPropertyValues(beanName, mbd, bw, pvs);
    }
 }
 ```
 
-### 6. initializeBean()
+### 8 . initializeBean()
 
 > :执行初始化逻辑->执行AwareMethods和Bean后置处理器
 
@@ -651,3 +761,255 @@ protected Object initializeBean(String beanName, Object bean, @Nullable RootBean
    return wrappedBean;
 }
 ```
+
+
+
+## Spring循环依赖
+
+###  1. Spring循环依赖概述
+
+> 在一个对象依赖关系中，A对象依赖B对象，B对象依赖A对象；造成循环依赖链
+
+![image-20210630165136629](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025510.png)
+
+### 2. 简单模仿解决循环引用：
+
+```java
+package cn.zhanghub.spring.circularDependency.circularDependency;
+
+import lombok.Getter;
+import lombok.SneakyThrows;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * 类描述：
+ *
+ * @ClassName Imitate
+ * @Author 张文军
+ * @Date 2021/7/1 0:00
+ * @Version 1.0
+ */
+public class Imitate {
+    /**
+     * 放置创建好的bean Map,模拟单例池 
+     */
+    private static Map<String, Object> cacheMap = new HashMap<>(2);
+
+    public static void main(String[] args) {
+        // 假装扫描出来的对象       
+        Class[] classes = {A.class, B.class};
+        // 假装项目初始化实例化所有bean
+        for (Class aClass : classes) {
+            getBean(aClass);
+        }
+        // check
+        System.out.println(getBean(B.class).getA() == getBean(A.class));
+        System.out.println(getBean(A.class).getB() == getBean(B.class));
+    }
+
+    @SneakyThrows
+    private static <T> T getBean(Class<T> beanClass) {
+        // 类名小写简单代替bean的命名规则
+        String beanName = beanClass.getSimpleName().toLowerCase();
+        // 如果已经是一个bean，则直接返回
+        if (cacheMap.containsKey(beanName)) {
+            return (T) cacheMap.get(beanName);
+        }
+        // 将对象本身实例化
+        Object object = beanClass.getDeclaredConstructor().newInstance();
+        // 放入缓存
+        cacheMap.put(beanName, object);
+        // 把所有字段当成需要注入的bean，创建并注入到当前bean中
+        Field[] fields = object.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            // 获取需要注入字段的class            
+            Class<?> fieldClass = field.getType();
+            String fieldBeanName = fieldClass.getSimpleName().toLowerCase();
+            // 如果需要注入的bean，已经在缓存Map中，那么把缓存Map中的值注入到该field即可            
+            // 如果缓存没有 继续创建            
+            field.set(object, cacheMap.containsKey(fieldBeanName) ? cacheMap.get(fieldBeanName) : getBean(fieldClass));
+        }
+        // 属性填充完成，返回
+        return (T) object;
+    }
+}
+
+class B {
+    @Getter
+    private A a;
+}
+class A {
+    @Getter
+    private B b;
+}
+
+```
+
+### 3. Spring三级缓存
+
+![image-20210701012914069](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025511.png)
+
+```java
+ /** Cache of singleton objects: bean name to bean instance. */
+
+	// 从上至下 分表代表这“三级缓存”
+	// 1、一级缓存放完整Bean对象
+	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256); //一级缓存
+	// 2、二级缓存放Bean的早期暴露对象，即未完成初始化赋值的实例
+	private final Map<String, Object> earlySingletonObjects = new HashMap<>(16); // 二级缓存
+	// 3、放lambda表达式，来完成代理对象的覆盖过程-->即：存放Bean的原始工厂
+	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16); // 三级缓存
+	...
+	
+	/** Names of beans that are currently in creation. */
+	// 这个缓存也十分重要：它表示bean创建过程中都会在里面呆着~
+	// 它在Bean开始创建时放值，创建完成时会将其移出~
+	private final Set<String> singletonsCurrentlyInCreation = Collections.newSetFromMap(new ConcurrentHashMap<>(16));
+
+	/** Names of beans that have already been created at least once. */
+	// 当这个Bean被创建完成后，会标记为这个 注意：这里是set集合 不会重复
+	// 至少被创建了一次的  都会放进这里~~~~
+	private final Set<String> alreadyCreated = Collections.newSetFromMap(new ConcurrentHashMap<>(256));
+```
+
+
+
+#### 1. getBean()方法中三级缓存
+
+```java
+@Nullable
+protected Object getSingleton(String beanName, boolean allowEarlyReference) {
+
+   Object singletonObject = this.singletonObjects.get(beanName);
+   // 这个bean 正处于 创建阶段
+   if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+      // 并发控制
+      synchronized (this.singletonObjects) {
+         // 单例缓存是否存在
+         singletonObject = this.earlySingletonObjects.get(beanName);
+         // 是否运行获取 bean factory 创建出的 bean
+         if (singletonObject == null && allowEarlyReference) {
+            // 获取缓存中的 ObjectFactory
+            ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
+            if (singletonFactory != null) {
+               singletonObject = singletonFactory.getObject();
+               // 将对象缓存到 earlySingletonObject中
+               this.earlySingletonObjects.put(beanName, singletonObject);
+               // 从工厂缓冲中移除
+               this.singletonFactories.remove(beanName);
+            }
+         }
+      }
+   }
+   return singletonObject;
+```
+
+1. 先从`一级缓存singletonObjects`中去获取。（如果获取到就直接return）
+2. 如果获取不到或者对象正在创建中（`isSingletonCurrentlyInCreation()`），那就再从`二级缓存earlySingletonObjects`中获取。（如果获取到就直接return）
+3. 如果还是获取不到，且允许singletonFactories（allowEarlyReference=true）通过`getObject()`获取。就从`三级缓存singletonFactory`.getObject()获取。**（如果获取到了就从**`singletonFactories`**中移除，并且放进**`earlySingletonObjects`**。其实也就是从三级缓存**`移动（是剪切、不是复制哦~）`**到了二级缓存）**
+
+>  **加入`singletonFactories`三级缓存的前提是执行了构造器，所以构造器的循环依赖没法解决** 
+
+#### 缓存添加过程
+
+单例模式下，第一次获取Bean时由于Bean示例还未实例化，因此会先创建Bean然后放入缓存中，以后再次调用获取Bean方法将直接从缓存中获取，不再重新创建。Spring中，获取Bean的流程：
+
+![image-20210701023710256](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025512.png)
+
+ 对Bean的创建最为核心三个方法解释如下：
+
+- `createBeanInstance`：例化，其实也就是调用对象的**构造方法**实例化对象
+- `populateBean`：填充属性，这一步主要是对bean的依赖属性进行注入(`@Autowired`)
+- `initializeBean`：回到一些形如`initMethod`、`InitializingBean`等方法
+
+从对`单例Bean`的初始化可以看出，循环依赖主要发生在**第二步（populateBean）**，也就是field属性注入的处理。
+
+![image-20210701181234130](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025513.png)
+
+
+
+缓存添加过程主要发生在创建Bean也就是doCreateBean()过程中。doCreateBean()中在实例化完后，属性填充前， 有这样一句代码
+
+即：添加三级缓存:存放Bean 的原始工厂 `ObjectFactory`: **将创建对象的步骤封装到ObjectFactory中 交给自定义的Scope来选择是否需要创建对象来灵活的实现scope。**
+
+```java
+addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
+```
+
+`getEarlyBeanReference()`:获取早期暴露对象—>对对象进行AOP代理
+
+即：保证自己被循环依赖的时候，即使被别的Bean @Autowire进去的也是代理对象~~~~  AOP自动代理创建器此方法里会创建的代理对象
+
+```java
+protected Object getEarlyBeanReference(String beanName, RootBeanDefinition mbd, Object bean) {
+    Object exposedObject = bean;
+    if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
+        for (SmartInstantiationAwareBeanPostProcessor bp : getBeanPostProcessorCache().smartInstantiationAware) {
+            exposedObject = bp.getEarlyBeanReference(exposedObject, beanName);
+        }
+    }
+    return exposedObject;
+}
+```
+
+其添加三级缓存源码如下:
+
+```java
+protected void addSingletonFactory(String beanName, ObjectFactory<?> singletonFactory) {
+	Assert.notNull(singletonFactory, "Singleton factory must not be null");
+	synchronized (this.singletonObjects) {
+		if (!this.singletonObjects.containsKey(beanName)) {
+			this.singletonFactories.put(beanName, singletonFactory);
+			this.earlySingletonObjects.remove(beanName);
+			this.registeredSingletons.add(beanName);
+		}
+	}
+}
+```
+
+#### 2. 三级缓存作用
+
+第一级缓存存的是对外暴露的对象，也就是我们应用需要用到的
+
+第二级缓存的作用是为了处理循环依赖的对象创建问题，里面存的是半成品对象或半成品对象的代理对象
+
+第三级缓存的作用处理存在 AOP + 循环依赖的对象创建问题，能将代理对象提前创建
+
+#### 3. Spring 为什么要引入第三级缓存
+
+严格来讲，第三级缓存并非缺它不可，因为可以提前创建代理对象
+
+提前创建代理对象只是会节省那么一丢丢内存空间，并不会带来性能上的提升，但是会破环 Spring 的设计原则
+
+Spring 的设计原则是尽可能保证普通对象创建完成之后，再生成其 AOP 代理（尽可能延迟代理对象的生成）
+
+所以 Spring 用了第三级缓存，既维持了设计原则，又处理了循环依赖；牺牲那么一丢丢内存空间是愿意接受的
+
+
+
+### 4. Spring 循环引用创建过程
+
+![image-20210701150204090](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025514.png)
+
+ 依旧以上面`A`、`B`类使用属性`field`注入循环依赖的例子为例，对整个流程做文字步骤总结如下：
+
+1. 使用`context.getBean(A.class)`，旨在获取容器内的单例A(若A不存在，就会走A这个Bean的创建流程)，显然初次获取A是不存在的，因此走**A的创建之路~**
+2. `实例化`A（注意此处仅仅是实例化），并将它放进`缓存`（此时A已经实例化完成，已经可以被引用了）**实例化A：-> 放入三级缓存**
+3. `初始化`A：`@Autowired`依赖注入B（此时需要去容器内获取B）
+4. 为了完成依赖注入B，会通过`getBean(B)`去容器内找B。但此时B在容器内不存在，就走向**B的创建之路~**
+5. `实例化`B，并将其放入缓存。（此时B也能够被引用了）**实例化B：-> 放入三级缓存**
+6. `初始化`B，`@Autowired`依赖注入A（此时需要去容器内获取A）**三级缓存删除A：放入二级缓存**
+7. `此处重要`：初始化B时会调用`getBean(A)`去容器内找到A，上面我们已经说过了此时候因为A已经实例化完成了并且放进了缓存里，所以这个时候去看缓存里是已经存在A的引用了的，所以`getBean(A)`能够正常返回
+8. **B初始化成功**（此时已经注入A成功了，已成功持有A的引用了），return（注意此处return相当于是返回最上面的`getBean(B)`这句代码，回到了初始化A的流程中~）。
+9. 因为B实例已经成功返回了，因此最终**A也初始化成功**
+
+### 5. bean的生命流程
+
+![image-20210701180844101](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025515.png)
+
+
+

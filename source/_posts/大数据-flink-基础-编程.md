@@ -29,7 +29,7 @@ author: 张文军
 
 ## 1.Flink的API分层
 
-![img](../images/大数据-flink-基础-编程/clip_image002.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702024258.gif)
 
 注：越底层API越灵活，越上层的API越轻便
 
@@ -347,7 +347,7 @@ pom:
 
 ### 计算模型：
 
-![img](../images/大数据-flink-基础-编程/clip_image002-1610920053670.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035235.gif)
 
 1. 定义源
 2. 写Transformations，就是写operators
@@ -559,7 +559,7 @@ public class SocketWordCount {
 
 ## 4.Flink架构
 
-![img](../images/大数据-flink-基础-编程/clip_image004.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035225.gif)
 
 当 Flink 集群启动后，首先会启动一个 JobManger 和一个或多个的 TaskManager。由 Client 提交任务给 JobManager，JobManager 再调度任务到各个 TaskManager 去执行，然后 TaskManager 将心跳和统计信息汇报给 JobManager。TaskManager 之间以流的形式进行数据的传输。上述三者均为独立的 JVM 进程。
 
@@ -585,7 +585,7 @@ Flink 中的计算资源通过 Task Slot 来定义。每个 task slot 代表了 
 
 ## 6.task的并行度
 
-![img](../images/大数据-flink-基础-编程/clip_image006.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035223.gif)
 
  
 
@@ -593,13 +593,13 @@ Flink 中的计算资源通过 Task Slot 来定义。每个 task slot 代表了 
 
  
 
-![img](../images/大数据-flink-基础-编程/clip_image008.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035220.gif)
 
-![img](../images/大数据-flink-基础-编程/clip_image010.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035218.gif)
 
 ## 7.任务执行计划
 
-**![img](../images/大数据-flink-基础-编程/clip_image012.gif)**
+**![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035214.gif)**
 
  
 
@@ -607,11 +607,11 @@ Flink 中的计算资源通过 Task Slot 来定义。每个 task slot 代表了 
 
  
 
-**![img](../images/大数据-flink-基础-编程/clip_image014.gif)**
+**![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035211.gif)**
 
 但这并不是最终在 Flink 中运行的执行图，只是一个表示拓扑节点关系的计划图，在 Flink 中对应了 SteramGraph。另外，提交拓扑后（并发度设为2）还能在 UI 中看到另一张执行计划图，如下所示，该图对应了 Flink 中的 JobGraph。
 
-**![img](../images/大数据-flink-基础-编程/clip_image016.gif)**
+**![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035208.gif)**
 
 其实Flink 中的执行图可以分成四层：StreamGraph -> JobGraph -> ExecutionGraph -> 物理执行图
 
@@ -626,11 +626,11 @@ Flink 中的计算资源通过 Task Slot 来定义。每个 task slot 代表了 
 
  
 
-**![img](../images/大数据-flink-基础-编程/clip_image018.gif)**
+**![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035159.gif)**
 
  
 
-**![img](../images/大数据-flink-基础-编程/clip_image020.gif)**
+**![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035156.gif)**
 
  
 
@@ -640,7 +640,7 @@ Flink 中的计算资源通过 Task Slot 来定义。每个 task slot 代表了 
 
  
 
-**![img](../images/大数据-flink-基础-编程/clip_image022.gif)**
+**![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035153.gif)**
 
  
 
@@ -654,7 +654,7 @@ Flink 中的计算资源通过 Task Slot 来定义。每个 task slot 代表了 
 
 我们仍以上面的 WordCount 为例，下面这幅图，展示了Source并行度为1，FlatMap、KeyAggregation、Sink并行度均为2，最终以5个并行的线程来执行的优化过程。
 
-![img](../images/大数据-flink-基础-编程/clip_image024.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035149.gif)
 
 上图中将KeyAggregation和Sink两个operator进行了合并，因为这两个合并后并不会改变整体的拓扑结构。但是，并不是任意两个 operator 就能 chain 一起的。其条件还是很苛刻的：
 
@@ -664,13 +664,13 @@ Flink 中的计算资源通过 Task Slot 来定义。每个 task slot 代表了 
 
 3.    上下游节点都在同一个 slot group 中（下面会解释 slot group）
 
-![img](../images/大数据-flink-基础-编程/clip_image026.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035146.gif)
 
 1.   下游节点的 chain 策略为 ALWAYS（可以与上下游链接，map、flatmap、filter等默认是ALWAYS）
 
 2.   上游节点的 chain 策略为 ALWAYS 或 HEAD（只能与下游链接，不能与上游链接，Source默认是HEAD）
 
-![img](../images/大数据-flink-基础-编程/clip_image028.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035143.gif)
 
 1. 上下游算子之间没有数据shuffle     (数据分区方式是     forward)
 2. 用户没有禁用     chain
@@ -681,24 +681,24 @@ Operator chain的行为可以通过编程API中进行指定。可以通过在Dat
 
 l operator禁用chaining
 
-![img](../images/大数据-flink-基础-编程/clip_image030.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035141.gif)
 
 l 全局禁用chaining
 
-![img](../images/大数据-flink-基础-编程/clip_image032.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035139.gif)
 
  
 
 查看job的graph图
 
 
-![img](../images/大数据-flink-基础-编程/clip_image034.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035137.gif)
 
 ### OperatorChain的优缺点：
 
 那么 Flink 是如何将多个 operators chain在一起的呢？chain在一起的operators是如何作为一个整体被执行的呢？它们之间的数据流又是如何避免了序列化/反序列化以及网络传输的呢？下图展示了operators chain的内部实现：
 
-![img](../images/大数据-flink-基础-编程/clip_image036.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035135.gif)
 
 如上图所示，Flink内部是通过OperatorChain这个类来将多个operator链在一起形成一个新的operator。OperatorChain形成的框框就像一个黑盒，Flink 无需知道黑盒中有多少个ChainOperator、数据在chain内部是怎么流动的，只需要将input数据交给 HeadOperator 就可以了，这就使得OperatorChain在行为上与普通的operator无差别，上面的OperaotrChain就可以看做是一个入度为1，出度为2的operator。所以在实现中，对外可见的只有HeadOperator，以及与外部连通的实线输出，这些输出对应了JobGraph中的JobEdge，在底层通过RecordWriterOutput来实现。另外，框中的虚线是operator chain内部的数据流，这个流内的数据不会经过序列化/反序列化、网络传输，而是直接将消息对象传递给下游的 ChainOperator 处理，这是性能提升的关键点，在底层是通过 ChainingOutput 实现的
 
@@ -721,7 +721,7 @@ l 全局禁用chaining
 
 如上文所述的 WordCount 例子，5个Task没有solt共享的时候在TaskManager的slots中如下图分布，2个TaskManager，每个有3个slot：
 
-![img](../images/大数据-flink-基础-编程/clip_image038.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035132.gif)
 
  
 
@@ -731,7 +731,7 @@ l 全局禁用chaining
 
 2.   更容易获得更充分的资源利用。如果没有slot共享，那么非密集型操作source/flatmap就会占用同密集型操作 keyAggregation/sink 一样多的资源。如果有slot共享，将基线的2个并行度增加到6个，能充分利用slot资源，同时保证每个TaskManager能平均分配到相同数量的subtasks。
 
-![img](../images/大数据-flink-基础-编程/clip_image040.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035130.gif)
 
 我们将 WordCount 的并行度从之前的2个增加到6个（Source并行度仍为1），并开启slot共享（所有operator都在default共享组），将得到如上图所示的slot分布图。该任务最终会占用6个slots（最高并行度为6）。其次，我们可以看到密集型操作 keyAggregation/sink 被平均地分配到各个 TaskManager。
 
@@ -761,19 +761,19 @@ l 主要用于迭代流(训练机器学习模型)
 
 l 设置本地开发环境tm的slot数量
 
-![img](../images/大数据-flink-基础-编程/clip_image042.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035127.gif)
 
-![img](../images/大数据-flink-基础-编程/clip_image044.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035125.gif)
 
  
 
 l 设置最后的operator使用新的group
 
-![img](../images/大数据-flink-基础-编程/clip_image046.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035116.gif)
 
 l 由于不和前面的operator在一个group，无法进行slot的共享，所以最后的operator占用了其它slot
 
-![img](../images/大数据-flink-基础-编程/clip_image048.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035114.gif)
 
 ·    为什么占用了两个呢？
 
@@ -791,7 +791,7 @@ l 由于不和前面的operator在一个group，无法进行slot的共享，所�
 1. 同一个operator的各个subtask是不能呆在同一个SharedSlot中的，例如FlatMap[1]和FlatMap[2]是不能在同一个SharedSlot中的。
 2. Flink是按照拓扑顺序从Source一个个调度到Sink的。例如WordCount（Source并行度为1，其他并行度为2），那么调度的顺序依次是：Source -> FlatMap[1] -> FlatMap[2] -> KeyAgg->Sink[1] -> KeyAgg->Sink[2]。假设现在有2个TaskManager，每个只有1个slot（为简化问题），那么分配slot的过程如图所示：
 
-![img](../images/大数据-flink-基础-编程/clip_image050.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035110.gif)
 
 注：图中 SharedSlot 与 SimpleSlot 后带的括号中的数字代表槽位号（slotNumber）
 
@@ -815,7 +815,7 @@ l 由于不和前面的operator在一个group，无法进行slot的共享，所�
 
 ·    设置SlotSharingGroup ，就是设置了新的组，比如下图有两个组default和test组(所有SlotSharingGroup中的最大并行度之和)
 
-![img](../images/大数据-flink-基础-编程/clip_image052.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035103.gif)
 
 由于source和map之后的operator不属于同一个group，所以source和它们不能在一个solt中运行，而这里的source的default组的并行度是10，test组的并行度是20，所以所需槽位一共是30
 

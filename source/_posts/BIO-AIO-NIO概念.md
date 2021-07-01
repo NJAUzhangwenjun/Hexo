@@ -66,7 +66,7 @@ summary: 线程概述
 
 **[http://4.IO](https://link.zhihu.com/?target=http%3A//4.IO)与NIO区别**
 
-![img](../images/SpringMVC原理/v2-4240c9fd3182be3c5ef8af4f29948486_720w.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702031422.jpg)
 
 ### **5.同步与异步的区别**
 
@@ -161,7 +161,7 @@ Selector选择器可以监听多个Channel通道感兴趣的事情(read、write�
 
 ## NIO的应用和框架
 
-![img](../images/SpringMVC原理/v2-7a17e56d4a53291bc13145c636f5e8fa_720w.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702031423.jpg)
 
 
 

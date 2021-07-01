@@ -62,7 +62,7 @@ author: 张文军
 
  当成功编译完成后，能在当前 Flink 代码目录下的 flink-dist/target/子目录 中看到如下文件（不同的 Flink 代码分支编译出的版本号不同，这里的版本号是 Flink 1.5.1）：
 
- ![img](../images/大数据-flink-入门02.assets/1.png)
+ ![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034712.png)
 
  其中有三个文件可以留意一下：
 
@@ -88,18 +88,18 @@ author: 张文军
 
  运行 Flink 应用其实非常简单，但是在运行 Flink 应用之前，还是有必要了解 Flink 运行时的各个组件，因为这涉及到 Flink 应用的配置问题。图 1 所示，这是用户用 DataStream API 写的一个数据处理程序。可以看到，在一个 DAG 图中不能被 Chain 在一起的 Operator 会被分隔到不同的 Task 中，也就是说 Task 是 Flink 中资源调度的最小单位。
 
- ![img](../images/大数据-flink-入门02.assets/2.png)图 1. Parallel Dataflows
+ ![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034713.png)图 1. Parallel Dataflows
 
  如下图图 2 所示，Flink 实际运行时包括两类进程：
 
  - JobManager（又称为 JobMaster）：协调 Task 的分布式执行，包括调度 Task、协调创 Checkpoint 以及当 Job failover 时协调各个 Task 从 Checkpoint 恢复等。
  - TaskManager（又称为 Worker）：执行 Dataflow 中的 Tasks，包括内存 Buffer 的分配、Data Stream 的传递等。
 
- ![img](../images/大数据-flink-入门02.assets/3.png)图 2 . Flink Runtime 架构图
+ ![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034714.png)图 2 . Flink Runtime 架构图
 
  图 3 所示，Task Slot 是一个 TaskManager 中的最小资源分配单位，一个 TaskManager 中有多少个 Task Slot 就意味着能支持多少并发的 Task 处理。需要注意的是，一个 Task Slot 中可以执行多个 Operator，一般这些 Operator 是能被 Chain 在一起处理的。
 
- ![img](../images/大数据-flink-入门02.assets/4.png)图 3 . Process
+ ![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034715.png)图 3 . Process
 
  #### **2.** **运行环境准备**
 
@@ -280,7 +280,7 @@ author: 张文军
 
  因此如果在生产业务使用 Standalone 模式，则需要部署配置 HighAvailability，这样同时可以有多个 JobManager 待命，从而使得 JobManager 能够持续服务。
 
- ![img](../images/大数据-flink-入门02.assets/5.png)图 4. Flink JobManager HA 示意图
+ ![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034716.png)图 4. Flink JobManager HA 示意图
 
  注意：
 
@@ -308,7 +308,7 @@ author: 张文军
 
  jps 命令看到 ZK 进程已经启动：
 
- ![img](../images/大数据-flink-入门02.assets/6.png)
+ ![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034717.png)
 
  停掉 Zookeeper 集群的命令：
 
@@ -400,7 +400,7 @@ author: 张文军
 
  #### **6. 使用 Yarn 模式跑 Flink job**
 
- ![img](../images/大数据-flink-入门02.assets/7.png)图 5. Flink Yarn 部署流程图
+ ![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034718.png)图 5. Flink Yarn 部署流程图
 
  相对于 Standalone 模式，Yarn 模式允许 Flink job 的好处有：
 

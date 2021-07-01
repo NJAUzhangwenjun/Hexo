@@ -233,13 +233,13 @@ serverBootstrap.option(ChannelOption.SO_RCVBUF, 10);
 >
 > * TCP 以一个段（segment）为单位，每发送一个段就需要进行一次确认应答（ack）处理，但如果这么做，缺点是包的往返时间越长性能就越差
 >
->   ![](../images/3/0049.png)
+>   ![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025847.png)
 >
 > 
 >
 > * 为了解决此问题，引入了窗口概念，窗口大小即决定了无需等待应答而可以继续发送的数据最大值
 >
->   ![](../images/3/0051.png)
+>   ![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025848.png)
 >
 > * 窗口实际就起到一个缓冲区的作用，同时也能起到流量控制的作用
 >
@@ -1095,7 +1095,7 @@ channel.writeInbound(s2);
 
 解读
 
-![](../images/3/0013.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025849.png)
 
 
 

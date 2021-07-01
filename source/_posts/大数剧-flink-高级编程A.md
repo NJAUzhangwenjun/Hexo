@@ -32,7 +32,7 @@ author: 张文军
 
 ## 1. 计算模型
 
-![img](../images/大数剧-flink-高级编程A/clip_image002.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040135.gif)
 
  
 
@@ -191,7 +191,7 @@ flink支持的kafka版本对比：
 
 **1).Flink KafkaConsumer** **的 ** **Source API**
 
-![img](../images/大数剧-flink-高级编程A/clip_image002-1610983222375.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040129.gif)
 
  
 
@@ -247,11 +247,11 @@ FlinkKafkaConsumer010(Pattern subscriptionPattern, KeyedDeserializationSchema<T>
 DeserializationSchema：
 
 
-![img](../images/大数剧-flink-高级编程A/clip_image002-1610983331923.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040126.gif)
 
 KeyedDeserializationSchema：
 
-![img](../images/大数剧-flink-高级编程A/clip_image004.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040123.gif)
 
  
 
@@ -305,7 +305,7 @@ public class HainiuKafkaRecordSchema implements DeserializationSchema<HainiuKafk
 
 6.FlinkKafkaConsumer消费
 
-![img](../images/大数剧-flink-高级编程A/clip_image004-1610983416984.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040119.gif)
 
 
 
@@ -337,7 +337,7 @@ properties.setProperty("flink.partition-discovery.interval-millis", "30000")
 - Flink Kafka Consumer支持动态发现Kafka Topic，仅限通过正则表达式指定topic的方式 
 - 默认禁止动态发现topic，把flink.partition-discovery.interval-millis设置大于0即可启用
 
-![img](../images/大数剧-flink-高级编程A/clip_image006.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040114.gif)
 
  
 
@@ -380,7 +380,7 @@ public class KafkaRichParallelSource {
 
 下图展示了 Flink 中目前支持的主要几种流的类型，以及它们之间的转换关系。
 
-![img](../images/大数剧-flink-高级编程A/clip_image002-1610983474647.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040110.gif)
 
 **DataStream** 
 
@@ -457,7 +457,7 @@ class HainiuRichFlatMapFunction(topic:String,props:Properties) extends RichFlatM
 - connect只能连接两个流，而union可以连接多于两个流
 - connect连接的两个流类型可以不一致，而union连接的流的类型必须一致
 
-![img](../images/大数剧-flink-高级编程A/clip_image002-1610983579928.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040105.gif)
 
 示例代码：
 
@@ -863,7 +863,7 @@ val str3: DataStream[AnotherType] = str2.map { ... }
 
 上述 DataStream 上的转换在运行时会转换成如下的执行图：
 
-![img](../images/大数剧-flink-高级编程A/clip_image002-1610983784157.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040056.gif)
 
 如上图的执行图所示，DataStream 各个算子会并行运行，算子之间是数据流分区。如 Source 的第一个并行实例（S1）和 flatMap() 的第一个并行实例（m1）之间就是一个数据流分区。而在 flatMap() 和 map() 之间由于加了 rebalance()，它们之间的数据流分区就有3个子分区（m1的数据流向3个map()实例）。
 
@@ -881,7 +881,7 @@ val str3: DataStream[AnotherType] = str2.map { ... }
 
 第一个task并行度为2，第二个task并行度为6，第三个task并行度为2。从第一个task到第二个task，Src的 子集Src1 和 Map的子集Map1，2，3对应起来，Src1会以轮询调度的方式分别向Map1，2，3发送记录。 从第二个task到第三个task，Map的子集1，2，3对应Sink的子集1，这三个流的元素只会发送到Sink1。 假设我们每个TaskManager有三个Slot，并且我们开了SlotSharingGroup，那么通过rescale，所有的数据传输都在一个TaskManager内，不需要通过网络。
 
-![img](../images/大数剧-flink-高级编程A/clip_image004-1610983784158.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040054.gif)
 
  
 
@@ -1478,7 +1478,7 @@ public class HDFSFile {
 
  
 
-![img](../images/大数剧-flink-高级编程A/clip_image002-1610984258530.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040043.gif)
 
 1.FlinkFlinkKafkaProducer创建方式：
 
@@ -1507,7 +1507,7 @@ FlinkKafkaProducer010(String topicId,KeyedSerializationSchema<T> serializationSc
 
  
 
-**![img](../images/大数剧-flink-高级编程A/clip_image002-1610984290359.gif)**
+**![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040040.gif)**
 
  
 
@@ -1719,11 +1719,11 @@ public class FileSourceRestart {
 
 ### 4.Flink有状态的计算
 
-![img](../images/大数剧-flink-高级编程A/clip_image002.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040034.jpg)
 
 ### 5.Flink丰富的状态访问和高效的容错机制
 
-![img](../images/大数剧-flink-高级编程A/clip_image004.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040032.jpg)
 
 ### 6.状态分类
 
@@ -1747,7 +1747,7 @@ public class FileSourceRestart {
 
 - - 每个Kafka Consumer实例都维护一个topic分区和偏移量的映射作为其操作状态。
 
-![img](../images/大数剧-flink-高级编程A/clip_image006.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040030.jpg)
 
 #### 2).Keyed State
 
@@ -1756,7 +1756,7 @@ public class FileSourceRestart {
 - 每个并行keyed Operator的每个实例的每个key有一个Keyed State：即<parallel-operator-instance,key>就是一个唯一的状态，由于每个key属于一个keyed operator的并行实例，因此我们可以将其简单地理解为<operator,key>
 - 思考：一个并行度为2的keyed     Operator有多少个状态（只考虑一个算子需要一个逻辑状态的情形）
 
-![img](../images/大数剧-flink-高级编程A/clip_image008.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040027.gif)
 
 
 - 支持的数据结构
@@ -1791,7 +1791,7 @@ public class FileSourceRestart {
     - putAll(Map<UK,UV>)
     - get(UK)
 
-![img](../images/大数剧-flink-高级编程A/clip_image010.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040024.jpg)
 
 #### 3).注意：
 
@@ -1828,20 +1828,20 @@ public class FileSourceRestart {
 
 ​    
 
-![img](../images/大数剧-flink-高级编程A/clip_image012.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040021.jpg)
 
  
 
 ### 3).状态容错示意图（checkpoint）
 
-![img](../images/大数剧-flink-高级编程A/clip_image014.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040019.jpg)
 
 ### 4).状态容错示意图（Restore）
 
 - 恢复所有状态
 - 设置source的位置（例如：Kafka的offset）
 
-![img](../images/大数剧-flink-高级编程A/clip_image016.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702040017.jpg)
 
  
 
@@ -2987,7 +2987,7 @@ public class MyReduceFunctionWithKeyedState extends RichReduceFunction<Tuple2<St
 - 全局异步化是snapshot的核心机制
 - Flink分布式快照的核心概念之一就是数据栅栏（barrier）。这些barrier被插入到数据流中，作为数据流的一部分和数据一起向下流动。Barrier不会干扰正常数据，数据严格有序。一个barrier把数据流分割成两部分：一部分进入到当前快照，另一部分进入下一个快照。每一个barrier都带有快照ID，并且barrier之前的数据都进入了此快照。Barrier不会干扰数据流处理，所以非常轻量。多个不同快照的多个barrier会在流中同时出现，即多个快照可能同时创建。
 
-![img](../images/大数剧-flink-高级编程A/clip_image002-1610996041905.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035958.jpg)
 
 - Barrier在数据源端插入，当snapshot n的barrier插入后，系统会记录当前snapshot位置值 n（用Sn表示）。
 - 例如，在Apache Kafka中，这个变量表示某个分区中最后一条数据的偏移量。这个位置值 Sn 会被发送到一个称为checkpoint     cordinator的模块。（即Flink 的 JobManager）
@@ -2996,7 +2996,7 @@ public class MyReduceFunctionWithKeyedState extends RichReduceFunction<Tuple2<St
 
 **2.** **分布式环境下的** **ck** **原理：**
 
-![img](../images/大数剧-flink-高级编程A/clip_image004-1610996041906.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035955.jpg)
 
 在分布式情况下：
 
@@ -3014,7 +3014,7 @@ public class MyReduceFunctionWithKeyedState extends RichReduceFunction<Tuple2<St
 
 **3.Barrier** **多并行度（对齐），** **flink** **怎么保证** **Exactly Once**
 
-![img](../images/大数剧-flink-高级编程A/clip_image006-1610996041906.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035952.jpg)
 
 接收超过一个输入流的operator需要基于barrier对齐（align）输入。参见上图：
 
@@ -3163,7 +3163,7 @@ env.setStateBackend(backend);
 
 #### 4).StateBackend总结
 
-![img](../images/大数剧-flink-高级编程A/clip_image002-1610996129172.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035946.jpg)
 
 #####  1).配置StateBackend
 
@@ -3389,7 +3389,7 @@ DataStream<String> stream = env.
 
 ·    举例：某Operator的并行度由3改为2
 
-![img](../images/大数剧-flink-高级编程A/clip_image002-1610996283405.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035937.jpg)
 
 - 不同数据结构的动态扩展方式不一样：
 
@@ -3418,7 +3418,7 @@ DataStream<String> stream = env.
 
 ​            numOfKeyGroups是有多少个组，taskNum有多少个任务，KG是组ID从0开始算，Subtask是任务ID从0开始算
 
-![img](../images/大数剧-flink-高级编程A/clip_image004-1610996283405.jpg)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035932.jpg)
 
 CheckpointedFunction如何选择重分配策略
 

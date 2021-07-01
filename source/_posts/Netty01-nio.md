@@ -217,27 +217,27 @@ ByteBuffer 有以下重要属性
 
 一开始
 
-![](../images/Netty01-nio/0021.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030138.png)
 
 写模式下，position 是写入位置，limit 等于容量，下图表示写入了 4 个字节后的状态
 
-![](../images/Netty01-nio/0018.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030139.png)
 
 flip 动作发生后，position 切换为读取位置，limit 切换为读取限制
 
-![](../images/Netty01-nio/0019.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030140.png)
 
 读取 4 个字节后，状态
 
-![](../images/Netty01-nio/0020.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030141.png)
 
 clear 动作发生后，状态
 
-![](../images/Netty01-nio/0021.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030138.png)
 
 compact 方法，是把未读完的部分向前压缩，然后切换至写模式
 
-![](../images/Netty01-nio/0022.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030142.png)
 
 
 
@@ -1516,7 +1516,7 @@ ld�
 
 #### 处理消息的边界
 
-![](../images/Netty01-nio/0023.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030143.png)
 
 * 一种思路是固定消息长度，数据包大小一样，服务器按预定长度读取，缺点是浪费带宽
 * 另一种思路是按分隔符拆分，缺点是效率低
@@ -2016,31 +2016,31 @@ public class UdpClient {
 * 等待数据阶段
 * 复制数据阶段
 
-![](../images/Netty01-nio/0033.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030144.png)
 
 * 阻塞 IO
 
-  ![](../images/Netty01-nio/0039.png)
+  ![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030145.png)
 
 * 非阻塞  IO
 
-  ![](../images/Netty01-nio/0035.png)
+  ![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030146.png)
 
 * 多路复用
 
-  ![](../images/Netty01-nio/0038.png)
+  ![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030147.png)
 
 * 信号驱动
 
 * 异步 IO
 
-  ![](../images/Netty01-nio/0037.png)
+  ![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030148.png)
 
 * 阻塞 IO vs 多路复用
 
-  ![](../images/Netty01-nio/0034.png)
+  ![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030149.png)
 
-  ![](../images/Netty01-nio/0036.png)
+  ![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030150.png)
 
 #### 🔖 参考
 
@@ -2067,7 +2067,7 @@ socket.getOutputStream().write(buf);
 
 内部工作流程是这样的：
 
-![](../images/Netty01-nio/0024.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030151.png)
 
 1. java 本身并不具备 IO 读写能力，因此 read 方法调用后，要从 java 程序的**用户态**切换至**内核态**，去调用操作系统（Kernel）的读能力，将数据读入**内核缓冲区**。这期间用户线程阻塞，操作系统使用 DMA（Direct Memory Access）来实现文件读，其间也不会使用 cpu
 
@@ -2095,7 +2095,7 @@ socket.getOutputStream().write(buf);
 * ByteBuffer.allocate(10)  HeapByteBuffer 使用的还是 java 内存
 * ByteBuffer.allocateDirect(10)  DirectByteBuffer 使用的是操作系统内存
 
-![](../images/Netty01-nio/0025.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030152.png)
 
 大部分步骤与优化前相同，不再赘述。唯有一点：java 可以使用 DirectByteBuf 将堆外内存映射到 jvm 内存中来直接访问使用
 
@@ -2109,7 +2109,7 @@ socket.getOutputStream().write(buf);
 
 进一步优化（底层采用了 linux 2.1 后提供的 sendFile 方法），java 中对应着两个 channel 调用 transferTo/transferFrom 方法拷贝数据
 
-![](../images/Netty01-nio/0026.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030153.png)
 
 1. java 调用 transferTo 方法后，要从 java 程序的**用户态**切换至**内核态**，使用 DMA将数据读入**内核缓冲区**，不会使用 cpu
 2. 数据从**内核缓冲区**传输到 **socket 缓冲区**，cpu 会参与拷贝
@@ -2124,7 +2124,7 @@ socket.getOutputStream().write(buf);
 
 进一步优化（linux 2.4）
 
-![](../images/Netty01-nio/0027.png)
+![](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702030154.png)
 
 1. java 调用 transferTo 方法后，要从 java 程序的**用户态**切换至**内核态**，使用 DMA将数据读入**内核缓冲区**，不会使用 cpu
 2. 只会将一些 offset 和 length 信息拷入 **socket 缓冲区**，几乎无消耗

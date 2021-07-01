@@ -50,11 +50,13 @@ summary: Spring源码-BeanDefinition
 
 #### **正常的创建一个java bean:**
 
-![image-20210627020045040](../images/Spring源码-Bean Definition/image-20210627020045040.png)
+![image-20210627020045040](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702024825.png)
+
+
 
 #### **Spring通过BeanDefinition来创建bean:**
 
-![image-20210627020154006](../images/Spring源码-Bean Definition/image-20210627020154006.png)
+![image-20210627020154006](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025351.png)
 
 通过上面的比较，可以发现，相比于正常的对象的创建过程，Spring对其管理的bean没有直接采用new的方式，而是先通过解析配置数据以及根据对象本身的一些定义而获取其对应的beandefinition,并将这个beandefinition作为之后创建这个bean的依据。同时Spring在这个过程中提供了一些扩展点，例如我们在图中所提到了BeanfactoryProcessor（BeanFactory后置处理器）。
 
@@ -64,9 +66,9 @@ summary: Spring源码-BeanDefinition
 
 ### 1. BeanDefinition接口类图
 
-![BeanDefinition](../images/Spring源码-Bean Definition/image-20210627020829123.png)
+![BeanDefinition](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025352.png)
 
-![BeanDefinition类图结构](../images/Spring源码-Bean Definition/BeanDefinition.png)
+![BeanDefinition类图结构](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025353.png)
 
 
 
@@ -138,13 +140,13 @@ summary: Spring源码-BeanDefinition
 
 ```
 
-![image-20210627130538339](../images/Spring源码-Bean Definition/image-20210627130538339.png)
+![image-20210627130538339](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025354.png)
 
 
 
 ### 3. BeanDefinition的继承关系:
 
-![image-20210627132240116](../images/Spring源码-Bean Definition/image-20210627132240116.png)
+![image-20210627132240116](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025355.png)
 
 #### 1. BeanDefinition继承的接口：
 
@@ -207,7 +209,7 @@ Object getSource();
 
 #### 1. **AbstractBeanDefinition的继承关系：**
 
-![image-20210627140455666](../images/Spring源码-Bean Definition/image-20210627140455666.png)
+![image-20210627140455666](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025356.png)
 
 
 
@@ -279,7 +281,7 @@ private boolean primary = false;
 
 ### 5. AbstractBeanDefinition的三个子类
 
-![image-20210627144249811](../images/Spring源码-Bean Definition/image-20210627144249811.png)
+![image-20210627144249811](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025357.png)
 
 
 
@@ -299,7 +301,7 @@ private boolean primary = false;
 
 ### 6. AnnotatedBeanDefinition
 
-![image-20210627150544175](../images/Spring源码-Bean Definition/image-20210627150544175.png)
+![image-20210627150544175](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025358.png)
 
 AnnotatedBeanDefinition 接口扩展了BeanDefinition 添加新的功能:获取bean的注解元数据以及工厂方法的元数据。
 
@@ -353,11 +355,11 @@ public static void main(String[] args) {
 
 2. BeanDefinition的具体使用的子类，以及Spring在哪些地方使用到了它们。画图总结如下：
 
-   ![image-20210627155915148](../images/Spring源码-Bean Definition/image-20210627155915148.png)
+   ![image-20210627155915148](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025359.png)
 
    
 
-   ![image-20210627163124891](../images/Spring源码-Bean Definition/image-20210627163124891.png)
+   ![image-20210627163124891](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025400.png)
 
    
 
@@ -378,7 +380,7 @@ String getParentName();
 
 ### 1. 什么是合并？
 
-![image-20210627171709384](../images/Spring源码-Bean Definition/image-20210627171709384.png)
+![image-20210627171709384](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025401.png)
 
 一个BeanDefinition包含了很多的配置信息，包括构造参数，setter方法的参数还有容器特定的一些配置信息，比如初始化方法，静态工厂方法等等。一个子的BeanDefinition可以从它的父BeanDefinition继承配置信息，不仅如此，还可以覆盖其中的一些值或者添加一些自己需要的属性。使用BeanDefinition的父子定义可以减少很多的重复属性的设置，父BeanDefinition可以作为BeanDefinition定义的模板。
 
@@ -459,7 +461,7 @@ derivedTestBean的age = 1
 
 这个阶段的操作主要发生在invokeBeanFactoryPostProcessors，对应方法的调用栈如下：
 
-![image-20210627182558975](../images/Spring源码-Bean Definition/image-20210627182558975.png)
+![image-20210627182558975](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025402.png)
 
 
 
@@ -524,7 +526,7 @@ public static void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFacto
 }
 ```
 
-![image-20210627183341216](../images/Spring源码-Bean Definition/image-20210627183341216.png)
+![image-20210627183341216](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702025403.png)
 
 大家可以结合我画的图跟上面的代码过一遍流程，只要弄清楚一点就行，即每次调用beanFactory.getBeanNamesForType都进行了一次bd的合并。getBeanNamesForType这个方法主要目的是为了获取指定类型的bd的名称，之后通过bd的名称去找到指定的bd，然后获取对应的Bean，比如上面方法三次获取的都是BeanDefinitionRegistryPostProcessor这个类型的bd。
 

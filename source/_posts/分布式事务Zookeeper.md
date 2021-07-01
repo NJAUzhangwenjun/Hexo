@@ -85,13 +85,13 @@ quorum：集群过半数的集合
 
 崩溃恢复、消息广播
 
-![img_72d0445bc3526b4548cfd3c6825a3554.png](../images/分布式事务Zookeeper/img_72d0445bc3526b4548cfd3c6825a3554.png)
+![img_72d0445bc3526b4548cfd3c6825a3554.png](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702033621.png)
 
 #### 1）崩溃恢复
 
 leader挂了，需要选举新的leader
 
-![img_9e57d1de9c874de7752cdabb7a32f4be.jpe](../images/分布式事务Zookeeper/img_9e57d1de9c874de7752cdabb7a32f4be.jpeg)
+![img_9e57d1de9c874de7752cdabb7a32f4be.jpe](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702033622.png)
 
 
 
@@ -133,7 +133,7 @@ d.改变服务器状态（崩溃恢复->数据同步，或者崩溃恢复->消�
 
 #### 2）消息广播（类似2P提交）
 
-![img_a8d4dc8a802ac5f29dfb3ec1c1160258.png](../images/分布式事务Zookeeper/img_a8d4dc8a802ac5f29dfb3ec1c1160258.png)
+![img_a8d4dc8a802ac5f29dfb3ec1c1160258.png](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702033623.jpeg)
 
 a.Leader接受请求后，将这个请求赋予全局的唯一64位自增Id（zxid）。
 

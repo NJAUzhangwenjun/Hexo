@@ -52,7 +52,7 @@ author: 张文军
 
 Apache Flink是一个分布式大数据处理引擎，可对有界数据流和无界数据流进行有状态计算。 可部署在各种集群环境，对各种大小的数据规模进行快速计算。
 
-![img](../images/大数据-flink-基础/clip_image002.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034852.gif)
 
 什么是有界数据流和无界数据流？
 
@@ -66,7 +66,7 @@ Apache Flink是一个分布式大数据处理引擎，可对有界数据流和�
 
  
 
-![img](../images/大数据-flink-基础/clip_image004.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034853.gif)
 
  
 
@@ -78,7 +78,7 @@ Apache Flink擅长处理无界和有界数据集。精确控制时间和状态�
 
 Flink诞生于欧洲的一个大数据研究项目，原名 StratoSphere。该项目是柏林工业大学的一个研究性项目，早期专注于批计算。2014 年，StratoSphere 项目中的核心成员孵化出 Flink，并在同年将 Flink 捐赠 Apache，后来 Flink 顺利成为 Apache 的顶级大数据项目。同时 Flink 计算的主流方向被定位为流计算，即用流式计算来做所有大数据 的计算工作，这就是 Flink 技术诞生的背景。
 
-![img](../images/大数据-flink-基础/clip_image006.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034854.gif)
 
  
 
@@ -86,7 +86,7 @@ Apache Flink起了个大早，赶了个晚集，在 2015 年突然出现在大�
 
  
 
-![img](../images/大数据-flink-基础/clip_image008.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034855.gif)
 
   
 
@@ -161,7 +161,7 @@ Apache Flink起了个大早，赶了个晚集，在 2015 年突然出现在大�
 
  
 
-![img](../images/大数据-flink-基础/clip_image012.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034856.gif)
 
  
 
@@ -175,7 +175,7 @@ Apache Flink起了个大早，赶了个晚集，在 2015 年突然出现在大�
 
  
 
-![img](../images/大数据-flink-基础/clip_image014.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034857.gif)
 
 ### 反压的过程
 
@@ -184,7 +184,7 @@ Apache Flink起了个大早，赶了个晚集，在 2015 年突然出现在大�
 [
  ](http://img3.tbcdn.cn/5476e8b07b923/TB1rCIvJpXXXXcKXXXXXXXXXXXX)
 
-![img](../images/大数据-flink-基础/clip_image016.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034858.gif)
 
 1.    记录“A”进入了 Flink 并且被 Task 1 处理。（这里省略了 Netty 接收、反序列化等过程）
 
@@ -214,7 +214,7 @@ Apache Flink起了个大早，赶了个晚集，在 2015 年突然出现在大�
 
 
 
-![img](../images/大数据-flink-基础/clip_image018.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034859.gif)
 
 ### 反压监控
 
@@ -222,7 +222,7 @@ Flink 的实现中，只有当 Web 页面切换到某个 Job 的 Backpressure �
 
  
 
-![img](../images/大数据-flink-基础/clip_image020.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034900.gif)
 
  
 
@@ -248,7 +248,7 @@ Flink 并不是将大量对象存在堆上，而是将对象都序列化到一�
 
 Flink 中的 Worker 名叫 TaskManager，是用来运行用户代码的 JVM 进程。TaskManager 的堆内存主要被分成了三个部分
 
-![img](../images/大数据-flink-基础/clip_image022.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034901.gif)
 
 l Network Buffers: 一定数量的32KB大小的 buffer，主要用于数据的网络传输。在 TaskManager 启动的时候就会分配。默认数量是 2048 个，可以通过 taskmanager.network.numberOfBuffers 来配置。
 
@@ -309,7 +309,7 @@ l GenericTypeInfo: 任意无法匹配之前几种类型的类。
 
  
 
-![img](../images/大数据-flink-基础/clip_image024.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034902.gif)
 
 可以看出这种序列化方式存储密度是相当紧凑的。其中 int 占4字节，double 占8字节，POJO多个一个字节的header，PojoSerializer只负责将header序列化进去，并委托每个字段对应的serializer对字段进行序列化。
 
@@ -319,7 +319,7 @@ Flink 的类型系统可以很轻松地扩展出自定义的TypeInformation、Se
 
 ### 排序
 
-![img](../images/大数据-flink-基础/clip_image026.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034903.gif)
 
 我们会把 sort buffer 分成两块区域。一个区域是用来存放所有对象完整的二进制数据。另一个区域用来存放指向完整二进制数据的指针以及定长的序列化后的key（key+pointer）。如果需要序列化的key是个变长类型，如String，则会取其前缀序列化。当一个对象要加到 sort buffer 中时，它的二进制数据会被加到第一个区域，指针（可能还有key）会被加到第二个区域。
 
@@ -329,11 +329,11 @@ Flink 的类型系统可以很轻松地扩展出自定义的TypeInformation、Se
 
  
 
-![img](../images/大数据-flink-基础/clip_image028.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034904.gif)
 
 最后，访问排序后的数据，可以沿着排好序的key+pointer区域顺序访问，通过pointer找到对应的真实数据，并写到内存或外部
 
-![img](../images/大数据-flink-基础/clip_image030.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034905.gif)
 
 ### 缓存友好的数据结构和算法
 
@@ -377,21 +377,21 @@ Flink用通过ByteBuffer.allocateDirect(numBytes)来申请堆外内存，用 sun
 
 ### 流式计算框架对比
 
-![img](../images/大数据-flink-基础/clip_image032.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034906.gif)
 
 ### API对比
 
-![img](../images/大数据-flink-基础/clip_image034.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034907.gif)
 
-![img](../images/大数据-flink-基础/clip_image036.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034908.gif)
 
 ### 数据源对比
 
-**![img](../images/大数据-flink-基础/clip_image038.gif)**
+**![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034909.gif)**
 
 ### 运行环境对比
 
-**![img](../images/大数据-flink-基础/clip_image040.gif)**
+**![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034910.gif)**
 
 ### 社区对比
 
@@ -416,11 +416,11 @@ Flink 的中文社区在
 
 ## 8.Flink生态
 
-![img](../images/大数据-flink-基础/clip_image042.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034911.gif)
 
 ## 9.Flink应用场景
 
-![img](../images/大数据-flink-基础/clip_image044.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702034912.gif)
 
 ## 10.Flink的未来
 

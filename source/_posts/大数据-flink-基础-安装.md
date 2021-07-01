@@ -28,7 +28,7 @@ author: 张文军
 
 ## 1.Flink生态之核心组件
 
-![img](../images/大数据-flink-基础-安装/clip_image002-1610919469663.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035649.gif)
 
  
 
@@ -58,7 +58,7 @@ https://flink.apache.org/downloads.html
 
 1.上传压缩包
 
-![img](../images/大数据-flink-基础-安装/clip_image004-1610919469665.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035646.gif)
 
 2.分发到每个机器上
 
@@ -66,7 +66,7 @@ https://flink.apache.org/downloads.html
 
   ./scp_all.sh ./up/flink-1.9.3-bin-scala_2.11.tgz /tmp/
 
-![img](../images/大数据-flink-基础-安装/clip_image006-1610919469666.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035643.gif)
 
 3.解压到/usr/local目录下
 
@@ -74,9 +74,9 @@ https://flink.apache.org/downloads.html
 
   ./ssh_root.sh tar -xzf /tmp/flink-1.9.3-bin-scala_2.11.tgz -C /usr/local/ 
 
-![img](../images/大数据-flink-基础-安装/clip_image008-1610919469666.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035641.gif)
 
-![img](../images/大数据-flink-基础-安装/clip_image010-1610919469666.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035638.gif)
 
 目录说明：
 
@@ -101,7 +101,7 @@ l log:日志
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image012-1610919469666.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035635.gif)
 
  
 
@@ -110,7 +110,7 @@ l log:日志
 
 ./ssh_root.sh ln -s /usr/local/flink-1.9.3 /usr/local/flink
 
-![img](../images/大数据-flink-基础-安装/clip_image014-1610919469666.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035633.gif)
 
  
 
@@ -119,13 +119,13 @@ l log:日志
 
 ./ssh_all.sh cp -r /usr/local/flink/conf /usr/local/flink/conf_back
 
-![img](../images/大数据-flink-基础-安装/clip_image016-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035631.gif)
 
  
 
 7.在每个机器上增加FLINK_HOME环境变量，之后source一下
 
-![img](../images/大数据-flink-基础-安装/clip_image018-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035629.gif)
 
  
 
@@ -139,7 +139,7 @@ l log:日志
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image020-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035627.gif)
 
 修改master
 
@@ -149,7 +149,7 @@ l log:日志
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image022-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035625.gif)
 
 修改slaves
 
@@ -159,7 +159,7 @@ l log:日志
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image024-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035623.gif)
 
  
 
@@ -175,7 +175,7 @@ l log:日志
  ```
 
 
-![img](../images/大数据-flink-基础-安装/clip_image026-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035621.gif)
 
 
 9.启动
@@ -184,11 +184,11 @@ l log:日志
 
   /usr/local/flink/bin/start-cluster.sh  
 
-![img](../images/大数据-flink-基础-安装/clip_image028-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035619.gif)
 
-![img](../images/大数据-flink-基础-安装/clip_image030-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035617.gif)
 
-![img](../images/大数据-flink-基础-安装/clip_image032-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035615.gif)
 
 启动日志
 
@@ -198,13 +198,13 @@ l log:日志
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image034-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035613.gif)
 
 启动flink之后各机器上的进程
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image036-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035611.gif)
 
  
 
@@ -212,7 +212,7 @@ jobManager界面
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image038-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035609.gif)
 
  
 
@@ -228,7 +228,7 @@ jobManager界面
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image040-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035557.gif)
 
 提交任务
 
@@ -238,11 +238,11 @@ jobManager界面
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image042-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035605.gif)
 
-![img](../images/大数据-flink-基础-安装/clip_image044-1610919469667.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035555.gif)
 
-![img](../images/大数据-flink-基础-安装/clip_image046-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035554.gif)
 
  
 
@@ -250,13 +250,13 @@ jobManager界面
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image048-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035552.gif)
 
  
 
 由于任务是在tm中运行，所以数据被打印到tm中
 
-![img](../images/大数据-flink-基础-安装/clip_image050-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035550.gif)
 
  
 
@@ -264,9 +264,9 @@ jobManager界面
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image052-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035548.gif)
 
-![img](../images/大数据-flink-基础-安装/clip_image054-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035546.gif)
 
  
 
@@ -314,7 +314,7 @@ state.checkpoints.dir: hdfs://ns1/flink/checkpoints
  ```
 
 
-![img](../images/大数据-flink-基础-安装/clip_image056-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035544.gif)
 
  
 
@@ -326,7 +326,7 @@ state.checkpoints.dir: hdfs://ns1/flink/checkpoints
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image058-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035542.gif)
 
  
 
@@ -336,7 +336,7 @@ state.checkpoints.dir: hdfs://ns1/flink/checkpoints
 
   ./scp_all.sh /usr/local/flink/conf/flink-conf.yaml  /usr/local/flink/conf/  ./scp_all.sh  /usr/local/flink/conf/masters /usr/local/flink/conf/  
 
-![img](../images/大数据-flink-基础-安装/clip_image060-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035540.gif)
 
  
 
@@ -348,7 +348,7 @@ state.checkpoints.dir: hdfs://ns1/flink/checkpoints
 
   ./ssh_all_zookeeper.sh /usr/local/zookeeper/bin/zkServer.sh start  
 
-![img](../images/大数据-flink-基础-安装/clip_image062-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035538.gif)
 
  
 
@@ -358,7 +358,7 @@ state.checkpoints.dir: hdfs://ns1/flink/checkpoints
 
   start-dfs.sh  
 
-![img](../images/大数据-flink-基础-安装/clip_image064-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035536.gif)
 
  
 
@@ -370,7 +370,7 @@ state.checkpoints.dir: hdfs://ns1/flink/checkpoints
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image066-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035534.gif)
 
  
 
@@ -382,7 +382,7 @@ state.checkpoints.dir: hdfs://ns1/flink/checkpoints
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image068-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035532.gif)
 
  
 
@@ -392,13 +392,13 @@ state.checkpoints.dir: hdfs://ns1/flink/checkpoints
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image070-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035530.gif)
 
  
 
 查看hdfs上的master元数据目录
 
-![img](../images/大数据-flink-基础-安装/clip_image072-1610919469668.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035529.gif)
 
  
 
@@ -406,13 +406,13 @@ state.checkpoints.dir: hdfs://ns1/flink/checkpoints
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image074-1610919469669.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035526.gif)
 
  
 
 各机器上的进程
 
-![img](../images/大数据-flink-基础-安装/clip_image076-1610919469669.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035524.gif)
 
  
 
@@ -426,7 +426,7 @@ state.checkpoints.dir: hdfs://ns1/flink/checkpoints
 
   flink run -d /usr/local/flink/examples/streaming/SocketWindowWordCount.jar  --hostna  
 
-![img](../images/大数据-flink-基础-安装/clip_image078-1610919469669.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035522.gif)
 
  
 
@@ -434,7 +434,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image080-1610919469669.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035520.gif)
 
  
 
@@ -442,13 +442,13 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image082-1610919469669.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035517.gif)
 
  
 
 查看原来的从master的webUI，发现此时已经变成了主master
 
-![img](../images/大数据-flink-基础-安装/clip_image084-1610919469669.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035515.gif)
 
  
 
@@ -456,7 +456,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image086-1610919469669.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035514.gif)
 
  
 
@@ -466,7 +466,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
   stop-cluster.sh  
 
-![img](../images/大数据-flink-基础-安装/clip_image088-1610919469669.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035512.gif)
 
 ## 4.Flink On YARN模式
 
@@ -474,7 +474,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
 在一个企业中，为了最大化的利用集群资源，一般都会在一个集群中同时运行多种类型的 Workload。因此 Flink 也支持在 Yarn 上面运行。首先，让我们通过下图了解下 Yarn 和 Flink 的关系。
 
-![img](../images/大数据-flink-基础-安装/clip_image090-1610919469669.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035510.gif)
 
 1.    在图中可以看出，Flink 与 Yarn 的关系与 MapReduce 和 Yarn 的关系是一样的。Flink 通过 Yarn 的接口实现了自己的 App Master。当在 Yarn 中部署了 Flink，Yarn 就会用自己的 Container 来启动 Flink 的 JobManager（也就是 App Master）和 TaskManager。
 
@@ -490,7 +490,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
 配置环境变量
 
-![img](../images/大数据-flink-基础-安装/clip_image092-1610919469669.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035506.gif)
 
  
 
@@ -500,7 +500,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
   vim /usr/local/flink/conf/log4j-yarn-session.properties  
 
-![img](../images/大数据-flink-基础-安装/clip_image094-1610919469669.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035505.gif)
 
  
 
@@ -525,7 +525,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
   **-**s **:** 每个TaskManager的slot的数量，executor**-**cores。建议将slot的数量设置每台机器的处理器数量  **-**tm **:** 每个TaskManager的内存大小，executor**-**memory  **-**n **:** TaskManager的数量，相当于executor的数量  **-**jm **:** JobManager的内存大小，driver**-**memory  **-**qu **:** yarn的资源队列  #可以通过  yarn-session.sh -h   命令来查看其它参数的使用  
 
 
- ![img](../images/大数据-flink-基础-安装/clip_image096-1610919469669.gif)
+ ![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035501.gif)
 
  
 
@@ -533,7 +533,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image098-1610919469670.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035458.gif)
 
  
 
@@ -541,7 +541,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image100-1610919469670.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035456.gif)
 
 ### 4.此时提交任务，使用刚才的jobManager的address
 
@@ -553,7 +553,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image102-1610919469670.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035454.gif)
 
  
 
@@ -569,7 +569,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image104-1610919469670.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035451.gif)
 
  
 
@@ -577,7 +577,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image106-1610919469670.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035438.gif)
 
  
 
@@ -585,7 +585,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image108-1610919469670.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035434.gif)
 
 那如果是7个任务怎么办呢？还会再继续启动一个taskManager。如果yarn队列资源不够了才不会继续启动。
 
@@ -601,7 +601,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
 ### 5.yarn模式的HA演示
 
-![img](../images/大数据-flink-基础-安装/clip_image110-1610919469670.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035432.gif)
 
  
 
@@ -609,13 +609,13 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image112-1610919469670.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035430.gif)
 
  
 
 此时yarn会马上尝试重新再次启动这个jobManager
 
-![img](../images/大数据-flink-基础-安装/clip_image114-1610919469670.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035428.gif)
 
  
 
@@ -623,7 +623,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image116-1610919469670.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035426.gif)
 
 总结：说明flink在yarn模式下也是具备HA功能的，前提是你得在flink-conf.yaml配置HA相关的信息
 
@@ -645,7 +645,7 @@ kill掉主master看看从master是否启用，以及运行中的任务是否还�
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image118-1610919469671.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035423.gif)
 
  
 
@@ -670,11 +670,11 @@ flink run -m yarn-cluster -yjm 1024 -ytm 1536 -yn 2 -ys 3 -yqu root.hainiu -ynm 
 
 yarn application name已修改：
 
-![img](../images/大数据-flink-基础-安装/clip_image120-1610919469671.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035421.gif)
 
-![img](../images/大数据-flink-基础-安装/clip_image122-1610919469671.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035418.gif)
 
-![img](../images/大数据-flink-基础-安装/clip_image124-1610919469671.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035416.gif)
 
 ### 6.怎么在yarn模式上使用thinjar
 
@@ -695,7 +695,7 @@ flink run -m yarn-cluster -yt /home/hadoop/spark_news_jars -yjm 1024 -ytm 1536 -
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image126-1610919469671.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035411.gif)
 
  
 
@@ -703,7 +703,7 @@ flink run -m yarn-cluster -yt /home/hadoop/spark_news_jars -yjm 1024 -ytm 1536 -
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image128-1610919469671.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035409.gif)
 
 #### 2.怎么让你的driver找到依赖的jar包
 
@@ -719,7 +719,7 @@ flink run -m yarn-cluster -yt /home/hadoop/spark_news_jars -yjm 1024 -ytm 1536 -
 
 跑任务那个机器的driver的进程信息
 
-![img](../images/大数据-flink-基础-安装/clip_image130-1610919469671.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035406.gif)
 
 怎么指定dirver端找到多个依赖的jar包
 
@@ -748,4 +748,4 @@ $(ll /home/hadoop/spark_news_jars/ |awk 'NR>1{print "-C file:///home/hadoop/spar
 
  
 
-![img](../images/大数据-flink-基础-安装/clip_image132-1610919469671.gif)
+![img](https://myblog-1258908231.cos.ap-shanghai.myqcloud.com/hexo/20210702035402.gif)
